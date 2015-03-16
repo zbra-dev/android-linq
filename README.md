@@ -3,7 +3,7 @@ Manipulate collections easily using C# LINQ style queries and, preferably, Java 
 
 # Description
 
-Android LINQ is a small subset of collection manipulation utilities inspirded by Microsoft C# LINQ library and targeted at Android developers looking to use new Java 8 Stream() API. 
+Android LINQ is a small subset of collection manipulation utilities inspired by Microsoft C# LINQ library and targeted at Android developers looking to use new Java 8 Stream() API. 
 
 By using [Retrolambda for Android](https://github.com/evant/gradle-retrolambda) developers can leverage the power of closures and other new Java 8 features. Unfortunately, it doesn't allow the usage of the Stream API which is arguably its most awesome feature. However, by using it in conjunction with Android LINQ, its possible to perform powerful collection manipulation in just a few lines of code. 
 
