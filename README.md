@@ -9,7 +9,7 @@ By using [Retrolambda for Android](https://github.com/evant/gradle-retrolambda),
 
 All in all, if you are not huge fan of Java 8 closures and stuff, you can use Android LINQ stand alone with default Anonymous Class implementations, but this will make things far less attractive to the eyes I must admit. Still feasible...
 
-Android LINQ has little to no impact on performance because it does not make use of reflection or proxies. As its C# counterpart it based on the [monads](http://en.wikipedia.org/wiki/Monad_(functional_programming)) concept, which is a fancy word to describe a sort of [Decorator](http://en.wikipedia.org/wiki/Decorator_pattern) pattern implementation, and many sorting and ordering are just making calls to the default Java API.
+Android LINQ has little to no impact on performance because it does not make use of reflection or proxies. As its C# counterpart it's based on the [monads](http://en.wikipedia.org/wiki/Monad_(functional_programming)) concept, which is a fancy word to describe a sort of [Decorator](http://en.wikipedia.org/wiki/Decorator_pattern) pattern implementation, and many sorting and ordering are just making calls to the default Java API.
 
 Anyway, you need not to worry. Just add this to your Gradle/Maven and suffer with manual collection iteration no more!
 
