@@ -30,4 +30,4 @@ Coming soon!
 # Pull Requests Are Welcome!
 
 Please, send feedback and pull requests a plenty! 
-If you find a bug, is missing a feature or has a improvement suggestion, don't be afraid to please file an issue and I will do my best attend it.
+If you find a bug, a missing feature or have an improvement suggestion, don't be afraid to file an issue and we will do our best to attend it.
