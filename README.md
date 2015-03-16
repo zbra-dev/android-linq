@@ -1,5 +1,5 @@
 # Android LINQ
-Iterate collections easily using C# LINQ style queries and, optionally, Java 8 closures.
+Manipulate collections easily using C# LINQ style queries and, preferably, Java 8 closures.
 
 # Description
 
