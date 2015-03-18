@@ -132,12 +132,12 @@ class StreamImpl<T> implements Stream<T> {
 
     @Override
     public boolean any() {
-        return first() != null;
+        return iterator().hasNext();
     }
 
     @Override
     public boolean any(Predicate<T> predicate) {
-        return first(predicate) != null;
+        return where(predicate).any();
     }
 
     @Override
