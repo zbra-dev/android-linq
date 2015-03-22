@@ -1,9 +1,9 @@
 package br.com.zbra.androidlinq;
 
+import br.com.zbra.androidlinq.delegate.Selector;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import br.com.zbra.androidlinq.delegate.Selector;
 
 class SelectManyIterable<T, TSelected> implements Iterable<TSelected> {
     private final Stream<T> stream;
@@ -16,52 +16,37 @@ class SelectManyIterable<T, TSelected> implements Iterable<TSelected> {
 
     @Override
     public Iterator<TSelected> iterator() {
-        Iterator<T> wrapped = stream.iterator();
-        return new Iterator<TSelected>() {
-            private boolean nextEvaluated;
-            private TSelected next;
-            private Iterator<TSelected> currentIterator;
 
+        Iterator<T> streamIterator = stream.iterator();
+        return new Iterator<TSelected>() {
+
+            public Boolean hasNext;
+            private Iterator<TSelected> selectedIterator;
+
+            @Override
             public boolean hasNext() {
-                evaluateNext();
-                return next != null;
+                if (hasNext != null)
+                    return hasNext;
+
+                if (selectedIterator != null && selectedIterator.hasNext())
+                    return hasNext = true;
+
+                while(streamIterator.hasNext()) {
+                    Iterable<TSelected> selectorIterable = selector.select(streamIterator.next());
+                    if (selectorIterable == null || !(selectedIterator = selectorIterable.iterator()).hasNext())
+                        continue;
+
+                    return hasNext = true;
+                }
+
+                return hasNext = false;
             }
 
             @Override
             public TSelected next() {
-                evaluateNext();
-
-                if (next == null)
-                    throw new NoSuchElementException();
-
-                nextEvaluated = false;
-
-                return next;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            private void evaluateNext() {
-                if (nextEvaluated)
-                    return;
-
-                next = null;
-                if (currentIterator != null && currentIterator.hasNext()) {
-                    next = currentIterator.next();
-                } else {
-                    while (wrapped.hasNext() && next == null) {
-                        T entry = wrapped.next();
-                        Iterable<TSelected> many = selector.select(entry);
-                        currentIterator = many.iterator();
-                        if (currentIterator.hasNext())
-                            next = currentIterator.next();
-                    }
-                }
-
-                nextEvaluated = true;
+                if (!hasNext()) throw new NoSuchElementException();
+                hasNext = null;
+                return selectedIterator.next();
             }
         };
     }

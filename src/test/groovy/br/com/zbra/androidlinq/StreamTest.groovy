@@ -1,16 +1,7 @@
 package br.com.zbra.androidlinq
 
-import br.com.zbra.androidlinq.delegate.Predicate
-import br.com.zbra.androidlinq.delegate.Selector
-import br.com.zbra.androidlinq.delegate.SelectorBigDecimal
-import br.com.zbra.androidlinq.delegate.SelectorByte
-import br.com.zbra.androidlinq.delegate.SelectorDouble
-import br.com.zbra.androidlinq.delegate.SelectorFloat
-import br.com.zbra.androidlinq.delegate.SelectorInteger
-import br.com.zbra.androidlinq.delegate.SelectorLong
-import br.com.zbra.androidlinq.delegate.SelectorShort
+import br.com.zbra.androidlinq.delegate.*
 import br.com.zbra.androidlinq.exception.MultipleElementsFoundException
-
 
 import static br.com.zbra.androidlinq.Linq.stream as stream
 
@@ -32,11 +23,30 @@ class StreamTest extends GroovyTestCase {
     }
 
     void testSelectMany() {
-        def integers = [1..3, 4, 5..6, 7, 8..9]
-        assert integers ==
-                stream(integers)
-                        .select({ n -> [n] })
+        assert [1..3, 4, 5..6, 7, 8..9] ==
+                stream([[1..3], [4], [5..6], [7], [8..9]])
                         .selectMany({ c -> c })
+                        .toList()
+
+
+        assert [1, 2, 4, 5] ==
+                stream([[1], [2], null, [4], [5]])
+                        .selectMany({ n -> n })
+                        .toList()
+
+        assert [] ==
+                stream([[], [], [], [], [], [], []])
+                        .selectMany({ n -> n })
+                        .toList()
+
+        assert [] ==
+                stream([null, null, null])
+                        .selectMany({ n -> n })
+                        .toList()
+
+        assert [null, null, null] ==
+                stream([[null], [null], [null]])
+                        .selectMany({ n -> n })
                         .toList()
     }
 
