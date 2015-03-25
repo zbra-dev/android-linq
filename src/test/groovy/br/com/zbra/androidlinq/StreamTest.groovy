@@ -23,15 +23,9 @@ class StreamTest extends GroovyTestCase {
     }
 
     void testSelectMany() {
-        assert [1..3, 4, 5..6, 7, 8..9] ==
-                stream([[1..3], [4], [5..6], [7], [8..9]])
+        assert 1..9 ==
+                stream([1..3, [4], 5..6, [7], 8..9])
                         .selectMany({ c -> c })
-                        .toList()
-
-
-        assert [1, 2, 4, 5] ==
-                stream([[1], [2], null, [4], [5]])
-                        .selectMany({ n -> n })
                         .toList()
 
         assert [] ==
@@ -39,15 +33,16 @@ class StreamTest extends GroovyTestCase {
                         .selectMany({ n -> n })
                         .toList()
 
-        assert [] ==
-                stream([null, null, null])
-                        .selectMany({ n -> n })
-                        .toList()
-
         assert [null, null, null] ==
                 stream([[null], [null], [null]])
                         .selectMany({ n -> n })
                         .toList()
+
+        shouldFail(NullPointerException.class, {
+            stream([[]])
+                    .selectMany({ n -> null })
+                    .toList()
+        });
     }
 
     void testGroupBy() {
@@ -211,7 +206,6 @@ class StreamTest extends GroovyTestCase {
         // first with no parameters
         assert stream([]).first() == null
         assert stream(integers).first() == 0
-        assert stream(integers).first() == 9
 
         // first passing Predicate
         assert stream(integers).first({ n -> n > 5 }) == 6
