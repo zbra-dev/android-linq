@@ -33,7 +33,7 @@ class SelectManyIterable<T, TSelected> implements Iterable<TSelected> {
 
                 while(streamIterator.hasNext()) {
                     Iterable<TSelected> selectorIterable = selector.select(streamIterator.next());
-                    if (selectorIterable == null || !(selectedIterator = selectorIterable.iterator()).hasNext())
+                    if (!(selectedIterator = selectorIterable.iterator()).hasNext())
                         continue;
 
                     return hasNext = true;
