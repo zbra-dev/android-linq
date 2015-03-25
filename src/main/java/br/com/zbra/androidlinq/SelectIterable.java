@@ -1,8 +1,8 @@
 package br.com.zbra.androidlinq;
 
-import java.util.Iterator;
-
 import br.com.zbra.androidlinq.delegate.Selector;
+
+import java.util.Iterator;
 
 class SelectIterable<T, TSelected> implements Iterable<TSelected> {
     private final Stream<T> stream;
@@ -25,11 +25,6 @@ class SelectIterable<T, TSelected> implements Iterable<TSelected> {
             @Override
             public TSelected next() {
                 return selector.select(wrapped.next());
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
             }
         };
     }

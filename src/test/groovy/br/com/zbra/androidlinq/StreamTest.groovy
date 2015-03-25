@@ -129,6 +129,12 @@ class StreamTest extends GroovyTestCase {
             stream(integers).take(0).toList();
         })
 
+        shouldFail(NoSuchElementException.class, {
+            def iterator = stream(0..9).take(1).iterator();
+            iterator.next();
+            iterator.next();
+        })
+
         // takes 5 items
         assert stream(integers).take(5).toList().size() == 5
         // takes 10 items (as many as are into the collection)

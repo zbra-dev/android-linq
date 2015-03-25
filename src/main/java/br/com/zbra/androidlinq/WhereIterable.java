@@ -1,9 +1,9 @@
 package br.com.zbra.androidlinq;
 
+import br.com.zbra.androidlinq.delegate.Predicate;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import br.com.zbra.androidlinq.delegate.Predicate;
 
 class WhereIterable<T> implements Iterable<T> {
     private final Stream<T> stream;
@@ -39,10 +39,6 @@ class WhereIterable<T> implements Iterable<T> {
                 return next;
             }
 
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
 
             private void evaluateNext() {
                 if (nextEvaluated)

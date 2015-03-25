@@ -33,11 +33,6 @@ class TakeIterable<T> implements Iterable<T> {
                 if (index > count) throw new NoSuchElementException();
                 return wrapped.next();
             }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
         };
     }
 }

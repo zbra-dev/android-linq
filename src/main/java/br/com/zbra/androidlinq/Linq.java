@@ -7,6 +7,8 @@ import java.util.Map;
  */
 public final class Linq {
 
+    private Linq() { }
+
     /**
      * Decorates the passed {@code iterable} with a Stream.
      *
