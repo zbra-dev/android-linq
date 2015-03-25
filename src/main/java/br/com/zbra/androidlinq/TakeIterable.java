@@ -1,6 +1,7 @@
 package br.com.zbra.androidlinq;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 class TakeIterable<T> implements Iterable<T> {
     private final Stream<T> stream;
@@ -29,6 +30,7 @@ class TakeIterable<T> implements Iterable<T> {
             @Override
             public T next() {
                 index++;
+                if (index > count) throw new NoSuchElementException();
                 return wrapped.next();
             }
 
