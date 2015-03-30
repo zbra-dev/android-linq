@@ -1,19 +1,19 @@
 package br.com.zbra.androidlinq;
 
+import br.com.zbra.androidlinq.delegate.Comparator;
+import br.com.zbra.androidlinq.delegate.Selector;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.zbra.androidlinq.delegate.Comparator;
-import br.com.zbra.androidlinq.delegate.Selector;
-
-class OrderByIterable<T, TComparable> implements Iterable<T> {
+class OrderByStream<T, TComparable> extends AbstractStream<T> {
 
     private final Stream<T> stream;
     private final Selector<T, TComparable> selector;
     private final Comparator<TComparable> comparator;
 
-    OrderByIterable(Stream<T> stream, Selector<T, TComparable> selector, Comparator<TComparable> comparator) {
+    OrderByStream(Stream<T> stream, Selector<T, TComparable> selector, Comparator<TComparable> comparator) {
         this.stream = stream;
         this.selector = selector;
         this.comparator = comparator;

@@ -17,7 +17,7 @@ public final class Linq {
      * @return a new Stream object that decorates the passed {@code iterable}
      */
     public static <T> Stream<T> stream(Iterable<T> iterable) {
-        return new StreamImpl<>(iterable);
+        return new IterableStream<>(iterable);
     }
 
     /**
@@ -30,6 +30,6 @@ public final class Linq {
      * @see java.util.Map#entrySet()
      */
     public static <TKey, TValue> Stream<Map.Entry<TKey, TValue>> stream(Map<TKey, TValue> map) {
-        return new StreamImpl<>(map.entrySet());
+        return new IterableStream<>(map.entrySet());
     }
 }

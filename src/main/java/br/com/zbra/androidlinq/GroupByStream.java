@@ -2,20 +2,16 @@ package br.com.zbra.androidlinq;
 
 import br.com.zbra.androidlinq.delegate.Selector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
-class GroupByIterable<T, TKey, TElement> implements Iterable<Grouping<TKey, TElement>> {
+class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TElement>> {
 
     private final Stream<T> stream;
     private final Selector<T, TKey> keySelector;
     private final Selector<T, TElement> elementSelector;
 
-    GroupByIterable(Stream<T> stream, Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector) {
+    GroupByStream(Stream<T> stream, Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector) {
         this.stream = stream;
         this.keySelector = keySelector;
         this.elementSelector = elementSelector;

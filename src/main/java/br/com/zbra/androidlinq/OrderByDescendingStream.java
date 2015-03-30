@@ -1,15 +1,15 @@
 package br.com.zbra.androidlinq;
 
+import br.com.zbra.androidlinq.delegate.Comparator;
+import br.com.zbra.androidlinq.delegate.Selector;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.zbra.androidlinq.delegate.Comparator;
-import br.com.zbra.androidlinq.delegate.Selector;
+class OrderByDescendingStream<T, R> extends OrderByStream<T, R> {
 
-class OrderByDescendingIterable<T, R> extends OrderByIterable<T, R> implements Iterable<T> {
-
-    OrderByDescendingIterable(Stream<T> stream, Selector<T, R> fieldSelector, Comparator<R> comparator) {
+    OrderByDescendingStream(Stream<T> stream, Selector<T, R> fieldSelector, Comparator<R> comparator) {
         super(stream, fieldSelector, comparator);
     }
 

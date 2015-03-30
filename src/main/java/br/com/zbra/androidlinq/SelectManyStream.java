@@ -5,11 +5,12 @@ import br.com.zbra.androidlinq.delegate.Selector;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class SelectManyIterable<T, TSelected> implements Iterable<TSelected> {
+class SelectManyStream<T, TSelected> extends AbstractStream<TSelected> {
+
     private final Stream<T> stream;
     private final Selector<T, Iterable<TSelected>> selector;
 
-    SelectManyIterable(Stream<T> stream, Selector<T, Iterable<TSelected>> selector) {
+    SelectManyStream(Stream<T> stream, Selector<T, Iterable<TSelected>> selector) {
         this.stream = stream;
         this.selector = selector;
     }
