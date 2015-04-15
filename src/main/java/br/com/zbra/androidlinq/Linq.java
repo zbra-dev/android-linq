@@ -1,5 +1,6 @@
 package br.com.zbra.androidlinq;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -8,6 +9,17 @@ import java.util.Map;
 public final class Linq {
 
     private Linq() { }
+
+    /**
+     * Decorates the passed {@code iterable} with a Stream.
+     *
+     * @param array a generic typed iterable (usually implementing the {@link java.util.Collection Collection} interface)
+     * @param <T>      the generic type of the {@code array}
+     * @return a new Stream object that decorates the passed {@code array}
+     */
+    public static <T> Stream<T> stream(T[] array) {
+        return new IterableStream<>(Arrays.asList(array));
+    }
 
     /**
      * Decorates the passed {@code iterable} with a Stream.

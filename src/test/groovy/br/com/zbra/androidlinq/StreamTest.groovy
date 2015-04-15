@@ -130,7 +130,7 @@ class StreamTest extends GroovyTestCase {
         })
 
         shouldFail(NoSuchElementException.class, {
-            def iterator = stream(0..9).take(1).iterator();
+            def iterator = stream(integers).take(1).iterator();
             iterator.next();
             iterator.next();
         })

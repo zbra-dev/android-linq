@@ -3,6 +3,14 @@ package br.com.zbra.androidlinq
 import static br.com.zbra.androidlinq.Linq.stream
 
 class LinqTest extends GroovyTestCase {
+    void testStreamArray() {
+        def array = 0..9 as int[]
+        def arrayStream = stream(array)
+
+        assert arrayStream.toList() == array
+    }
+
+
     void testStreamMap() {
 
         def map = [ 1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"]
