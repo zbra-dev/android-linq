@@ -14,6 +14,11 @@ class SelectStream<T, TSelected> extends AbstractStream<TSelected> {
     }
 
     @Override
+    public int count() {
+        return stream.count();
+    }
+
+    @Override
     public Iterator<TSelected> iterator() {
         return new SelectIterator<>(selector, stream.iterator());
     }

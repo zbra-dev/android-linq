@@ -22,26 +22,30 @@ class OrderByStream<T, TComparable> extends AbstractStream<T> {
     /**
      * @return the wrapped {@code stream}
      */
-    Stream<T> getStream() {
+    protected Stream<T> getStream() {
         return stream;
     }
 
     /**
      * @return the passed {@code selector}
      */
-    Selector<T, TComparable> getSelector() {
+    protected Selector<T, TComparable> getSelector() {
         return selector;
     }
 
     /**
      * @return the passed {@code comparator}
      */
-    Comparator<TComparable> getComparator() {
+    protected Comparator<TComparable> getComparator() {
         return comparator;
     }
 
     @Override
-    /** {@inheritDoc} */
+    public int count() {
+        return stream.count();
+    }
+
+    @Override
     public Iterator<T> iterator() {
         List<T> list = stream.toList();
         Collections.sort(list, (T t1, T t2) -> comparator.compare(selector.select(t1), selector.select(t2)));

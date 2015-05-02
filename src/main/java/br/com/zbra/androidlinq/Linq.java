@@ -1,6 +1,6 @@
 package br.com.zbra.androidlinq;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +18,18 @@ public final class Linq {
      * @return a new Stream object that decorates the passed {@code array}
      */
     public static <T> Stream<T> stream(T[] array) {
-        return new IterableStream<>(Arrays.asList(array));
+        return new ArrayStream<>(array);
+    }
+
+    /**
+     * Decorates the passed {@code list} with a Stream.
+     *
+     * @param list a generic typed list (usually implementing the {@link java.util.List List} interface)
+     * @param <T>      the generic type of the {@code list}
+     * @return a new Stream object that decorates the passed {@code list}
+     */
+    public static <T> Stream<T> stream(List<T> list) {
+        return new ListStream<>(list);
     }
 
     /**
@@ -42,6 +53,6 @@ public final class Linq {
      * @see java.util.Map#entrySet()
      */
     public static <TKey, TValue> Stream<Map.Entry<TKey, TValue>> stream(Map<TKey, TValue> map) {
-        return new IterableStream<>(map.entrySet());
+        return new MapStream<>(map);
     }
 }
