@@ -1,6 +1,7 @@
 package br.com.zbra.androidlinq;
 
 import java.util.Iterator;
+import java.util.Stack;
 
 class IterableStream<T> extends AbstractStream<T> {
 
@@ -13,5 +14,13 @@ class IterableStream<T> extends AbstractStream<T> {
     @Override
     public Iterator<T> iterator() {
         return iterable.iterator();
+    }
+
+    @Override
+    protected Iterator<T> reverseIterator() {
+        Stack<T> stack = new Stack<>();
+        for (T t : iterable)
+            stack.add(t);
+        return stack.iterator();
     }
 }

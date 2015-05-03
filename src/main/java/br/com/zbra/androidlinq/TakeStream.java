@@ -6,9 +6,9 @@ import java.util.NoSuchElementException;
 class TakeStream<T> extends AbstractStream<T> {
 
     private final int count;
-    private final Stream<T> stream;
+    private final AbstractStream<T> stream;
 
-    TakeStream(Stream<T> stream, int count) {
+    TakeStream(AbstractStream<T> stream, int count) {
         this.stream = stream;
 
         if (count <= 0)
@@ -20,6 +20,11 @@ class TakeStream<T> extends AbstractStream<T> {
     @Override
     public Iterator<T> iterator() {
         return new TakeIterator<>(stream.iterator(), count);
+    }
+
+    @Override
+    protected Iterator<T> reverseIterator() {
+        return new TakeIterator<>(stream.reverseIterator(), count);
     }
 
     private static class TakeIterator<T> implements Iterator<T> {

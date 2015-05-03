@@ -5,10 +5,10 @@ import br.com.zbra.androidlinq.delegate.Selector;
 import java.util.Iterator;
 
 class SelectStream<T, TSelected> extends AbstractStream<TSelected> {
-    private final Stream<T> stream;
+    private final AbstractStream<T> stream;
     private final Selector<T, TSelected> selector;
 
-    SelectStream(Stream<T> stream, Selector<T, TSelected> selector) {
+    SelectStream(AbstractStream<T> stream, Selector<T, TSelected> selector) {
         this.stream = stream;
         this.selector = selector;
     }
@@ -21,6 +21,11 @@ class SelectStream<T, TSelected> extends AbstractStream<TSelected> {
     @Override
     public Iterator<TSelected> iterator() {
         return new SelectIterator<>(selector, stream.iterator());
+    }
+
+    @Override
+    protected Iterator<TSelected> reverseIterator() {
+        return new SelectIterator<>(selector, stream.reverseIterator());
     }
 
     private static class SelectIterator<T, TSelected> implements Iterator<TSelected> {

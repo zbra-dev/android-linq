@@ -7,11 +7,11 @@ import java.util.*;
 
 class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TElement>> {
 
-    private final Stream<T> stream;
+    private final AbstractStream<T> stream;
     private final Selector<T, TKey> keySelector;
     private final Selector<T, TElement> elementSelector;
 
-    GroupByStream(Stream<T> stream, Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector) {
+    GroupByStream(AbstractStream<T> stream, Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector) {
         this.stream = stream;
         this.keySelector = keySelector;
         this.elementSelector = elementSelector;
@@ -19,8 +19,19 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
 
     @Override
     public Iterator<Grouping<TKey, TElement>> iterator() {
+        return getGroupingIterator(stream.iterator());
+    }
+
+    @Override
+    protected Iterator<Grouping<TKey, TElement>> reverseIterator() {
+        return getGroupingIterator(stream.reverseIterator());
+    }
+
+    private Iterator<Grouping<TKey, TElement>> getGroupingIterator(Iterator<T> iterator) {
         HashMap<TKey, List<TElement>> map = new HashMap<>();
-        for (T t : stream) {
+
+        while (iterator.hasNext()) {
+            T t = iterator.next();
             TKey key = keySelector.select(t);
             TElement element = elementSelector.select(t);
 
@@ -41,8 +52,7 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
         return groupings.iterator();
     }
 
-
-    public static class GroupingImpl<TKey, TElement> implements Grouping<TKey, TElement> {
+    private static class GroupingImpl<TKey, TElement> implements Grouping<TKey, TElement> {
         private final TKey key;
         private final Stream<TElement> elements;
 

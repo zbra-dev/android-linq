@@ -10,34 +10,11 @@ import java.util.List;
 class OrderByStream<T, TComparable> extends AbstractStream<T> {
 
     private final Stream<T> stream;
-    private final Selector<T, TComparable> selector;
-    private final Comparator<TComparable> comparator;
+    private final java.util.Comparator<T>  comparator;
 
     OrderByStream(Stream<T> stream, Selector<T, TComparable> selector, Comparator<TComparable> comparator) {
         this.stream = stream;
-        this.selector = selector;
-        this.comparator = comparator;
-    }
-
-    /**
-     * @return the wrapped {@code stream}
-     */
-    protected Stream<T> getStream() {
-        return stream;
-    }
-
-    /**
-     * @return the passed {@code selector}
-     */
-    protected Selector<T, TComparable> getSelector() {
-        return selector;
-    }
-
-    /**
-     * @return the passed {@code comparator}
-     */
-    protected Comparator<TComparable> getComparator() {
-        return comparator;
+        this.comparator = (T t1, T t2) -> comparator.compare(selector.select(t1), selector.select(t2));
     }
 
     @Override
@@ -47,8 +24,17 @@ class OrderByStream<T, TComparable> extends AbstractStream<T> {
 
     @Override
     public Iterator<T> iterator() {
+        return getIterator(comparator);
+    }
+
+    @Override
+    protected Iterator<T> reverseIterator() {
+        return getIterator(Collections.reverseOrder(comparator));
+    }
+
+    private Iterator<T> getIterator(java.util.Comparator<T> comparator) {
         List<T> list = stream.toList();
-        Collections.sort(list, (T t1, T t2) -> comparator.compare(selector.select(t1), selector.select(t2)));
+        Collections.sort(list, comparator);
         return list.iterator();
     }
 }

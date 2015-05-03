@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 class WhereStream<T> extends AbstractStream<T> {
-    private final Stream<T> stream;
+    private final AbstractStream<T> stream;
     private final Predicate<T> predicate;
 
-    WhereStream(Stream<T> stream, Predicate<T> predicate) {
+    WhereStream(AbstractStream<T> stream, Predicate<T> predicate) {
         this.stream = stream;
         this.predicate = predicate;
     }
@@ -17,6 +17,11 @@ class WhereStream<T> extends AbstractStream<T> {
     @Override
     public Iterator<T> iterator() {
         return new WhereIterator<>(stream.iterator(), predicate);
+    }
+
+    @Override
+    protected Iterator<T> reverseIterator() {
+        return new WhereIterator<>(stream.reverseIterator(), predicate);
     }
 
     private static class WhereIterator<T> implements Iterator<T> {

@@ -7,46 +7,57 @@ import java.util.NoSuchElementException;
 
 class SelectManyStream<T, TSelected> extends AbstractStream<TSelected> {
 
-    private final Stream<T> stream;
+    private final AbstractStream<T> stream;
     private final Selector<T, Iterable<TSelected>> selector;
 
-    SelectManyStream(Stream<T> stream, Selector<T, Iterable<TSelected>> selector) {
+    SelectManyStream(AbstractStream<T> stream, Selector<T, Iterable<TSelected>> selector) {
         this.stream = stream;
         this.selector = selector;
     }
 
     @Override
     public Iterator<TSelected> iterator() {
+        return new SelectManyIterator<>(selector, stream.iterator());
+    }
 
-        Iterator<T> streamIterator = stream.iterator();
-        return new Iterator<TSelected>() {
+    @Override
+    protected Iterator<TSelected> reverseIterator() {
+        return new SelectManyIterator<>(selector, stream.reverseIterator());
+    }
 
-            public Boolean hasNext;
-            private Iterator<TSelected> selectedIterator;
+    private static class SelectManyIterator<T, TSelected> implements Iterator<TSelected> {
+        private Boolean hasNext;
+        private Iterator<TSelected> selectedIterator;
+        private final Iterator<T> sourceIterator;
+        private final Selector<T, Iterable<TSelected>> selector;
 
-            @Override
-            public boolean hasNext() {
-                if (hasNext != null)
-                    return hasNext;
+        public SelectManyIterator(Selector<T, Iterable<TSelected>> selector, Iterator<T> sourceIterator) {
+            this.sourceIterator = sourceIterator;
+            this.selector = selector;
+        }
 
-                if (selectedIterator != null && selectedIterator.hasNext())
+        @Override
+        public boolean hasNext() {
+            if (hasNext != null)
+                return hasNext;
+
+            if (selectedIterator != null && selectedIterator.hasNext())
+                return hasNext = true;
+
+            while(sourceIterator.hasNext()) {
+                Iterable<TSelected> selectedIterable = selector.select(sourceIterator.next());
+                if ((selectedIterator = selectedIterable.iterator()).hasNext())
                     return hasNext = true;
-
-                while(streamIterator.hasNext()) {
-                    Iterable<TSelected> selectedIterable = selector.select(streamIterator.next());
-                    if ((selectedIterator = selectedIterable.iterator()).hasNext())
-                        return hasNext = true;
-                }
-
-                return hasNext = false;
             }
 
-            @Override
-            public TSelected next() {
-                if (!hasNext()) throw new NoSuchElementException();
-                hasNext = null;
-                return selectedIterator.next();
-            }
-        };
+            return hasNext = false;
+        }
+
+        @Override
+        public TSelected next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            hasNext = null;
+            return selectedIterator.next();
+        }
     }
 }

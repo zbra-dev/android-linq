@@ -19,15 +19,25 @@ class ArrayStream<T> extends AbstractStream<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new ArrayIterator<>(source);
+        return new ArrayIterator<>(source, 0, 1, source.length);
+    }
+
+
+    @Override
+    protected Iterator<T> reverseIterator() {
+        return new ArrayIterator<>(source, source.length - 1, -1, -1);
     }
 
     private static class ArrayIterator<T> implements Iterator<T> {
         private int index;
-        private T[] source;
+        private final int increment;
+        private final int limit;
+        private final T[] source;
 
-        public ArrayIterator(T[] source) {
-            this.index = 0;
+        public ArrayIterator(T[] source, int index, int increment, int limit) {
+            this.index = index;
+            this.increment = increment;
+            this.limit = limit;
             this.source = source;
         }
 
@@ -38,8 +48,10 @@ class ArrayStream<T> extends AbstractStream<T> {
 
         @Override
         public T next() {
-            if (index >= source.length) throw new NoSuchElementException();
-            return source[index++];
+            if (index == limit) throw new NoSuchElementException();
+            T nextElement = source[index];
+            index += increment;
+            return nextElement;
         }
     }
 }

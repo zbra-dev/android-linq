@@ -1,21 +1,11 @@
 package br.com.zbra.androidlinq;
 
+import br.com.zbra.androidlinq.delegate.*;
+import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import br.com.zbra.androidlinq.delegate.Aggregator;
-import br.com.zbra.androidlinq.delegate.Comparator;
-import br.com.zbra.androidlinq.delegate.Predicate;
-import br.com.zbra.androidlinq.delegate.Selector;
-import br.com.zbra.androidlinq.delegate.SelectorBigDecimal;
-import br.com.zbra.androidlinq.delegate.SelectorByte;
-import br.com.zbra.androidlinq.delegate.SelectorDouble;
-import br.com.zbra.androidlinq.delegate.SelectorFloat;
-import br.com.zbra.androidlinq.delegate.SelectorInteger;
-import br.com.zbra.androidlinq.delegate.SelectorLong;
-import br.com.zbra.androidlinq.delegate.SelectorShort;
-import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
 
 /**
  * Decorates {@code Iterable<T>} objects to enable use of Linq like expressions.
@@ -106,6 +96,13 @@ public interface Stream<T> extends Iterable<T> {
      * @return An Stream of type T whose elements are sorted according to a key.
      */
     public <TKey extends Comparable<TKey>> Stream<T> orderByDescending(Selector<T, TKey> keySelector);
+
+    /**
+     * Reverses the order of the sequence.
+     *
+     * @return An stream of type T whose elements are in the reverse order.
+     */
+    public Stream<T> reverse();
 
     /**
      * Applies an accumulator function over a sequence.

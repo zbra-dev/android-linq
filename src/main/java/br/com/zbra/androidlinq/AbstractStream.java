@@ -11,6 +11,8 @@ import static br.com.zbra.androidlinq.Linq.stream;
 
 abstract class AbstractStream<T> implements Stream<T> {
 
+    protected abstract Iterator<T> reverseIterator();
+
     @Override
     public Stream<T> where(Predicate<T> predicate) {
         return new WhereStream<>(this, predicate);
@@ -54,6 +56,11 @@ abstract class AbstractStream<T> implements Stream<T> {
     @Override
     public <R extends Comparable<R>> Stream<T> orderByDescending(Selector<T, R> keySelector) {
         return orderByDescending(keySelector, R::compareTo);
+    }
+
+    @Override
+    public Stream<T> reverse() {
+        return new ReverseStream<>(this);
     }
 
     @Override
