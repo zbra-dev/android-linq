@@ -8,24 +8,31 @@ import static br.com.zbra.androidlinq.Linq.stream as stream
 class StreamTest extends GroovyTestCase {
 
     void testWhere() {
-        assert [0, 2, 4, 6, 8] ==
-                stream(0..9)
-                        .where({ int n -> n % 2 == 0 })
-                        .toList()
+        def stream = stream(0..9).where({ int n -> n % 2 == 0 })
+
+        assert [0, 2, 4, 6, 8] == stream.toList()
+        assert [8, 6, 4, 2, 0] == stream.reverse().toList()
     }
 
     void testSelect() {
         def integers = 0..9
-        assert integers.collect { it * 2 } ==
-                stream(integers)
-                        .select({ n -> n * 2 })
-                        .toList()
+        def stream = stream(integers).select({ n -> n * 2 })
+
+        assert integers.collect { it * 2 } == stream.toList()
+        assert integers.reverse().collect { it * 2 } == stream.reverse().toList()
     }
 
     void testSelectMany() {
         assert 1..9 ==
                 stream([1..3, [4], 5..6, [7], 8..9])
                         .selectMany({ c -> c })
+                        .toList()
+
+        // TODO is this right!? is this the way reverse is supposed to work?
+        assert [8, 9, 7, 5, 6, 4, 1, 2, 3] ==
+                stream([1..3, [4], 5..6, [7], 8..9])
+                        .selectMany({ c -> c })
+                        .reverse()
                         .toList()
 
         assert [] ==
@@ -109,6 +116,13 @@ class StreamTest extends GroovyTestCase {
                 stream(shuffledItems)
                         .orderByDescending({ n -> n }, { n1, n2 -> n1 - n2 })
                         .toList()
+
+        // reverse cohesion
+        assert stream(shuffledItems).orderBy({ n -> n }).toList() ==
+                stream(shuffledItems).orderByDescending({ n -> n }).reverse().toList()
+
+        assert stream(shuffledItems).orderByDescending({ n -> n }).toList() ==
+                stream(shuffledItems).orderBy({ n -> n }).reverse().toList()
     }
 
     void testAggregate() {
