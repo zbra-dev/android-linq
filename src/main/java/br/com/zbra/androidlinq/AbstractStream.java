@@ -11,7 +11,11 @@ import static br.com.zbra.androidlinq.Linq.stream;
 
 abstract class AbstractStream<T> implements Stream<T> {
 
-    protected abstract Iterator<T> reverseIterator();
+    protected Iterator<T> reverseIterator() {
+        Deque<T> deque = new LinkedList<>();
+        for (T t : this) deque.addFirst(t);
+        return deque.iterator();
+    }
 
     @Override
     public Stream<T> where(Predicate<T> predicate) {
@@ -76,6 +80,11 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
+    public Stream<T> skip(int count) {
+        return new SkipStream<>(this, count);
+    }
+
+    @Override
     public Stream<T> distinct() {
         HashSet<T> set = new HashSet<>();
         return where(set::add);
@@ -133,29 +142,30 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public T first() {
-        Iterator<T> iterator = iterator();
-        if (iterator.hasNext())
-            return iterator.next();
-        return null;
+        return iterator().next();
     }
 
     @Override
     public T first(Predicate<T> predicate) {
-        for (T entry : this) {
-            if (predicate.apply(entry))
-                return entry;
-        }
-        return null;
+        return where(predicate).first();
+    }
+
+    @Override
+    public T last() {
+        return reverseIterator().next();
+    }
+
+    @Override
+    public T last(Predicate<T> predicate) {
+        return where(predicate).last();
     }
 
     @Override
     public T single() throws MultipleElementsFoundException {
-        T result = null;
-        for (T entry : this) {
-            if (result != null)
-                throw new MultipleElementsFoundException();
-            result = entry;
-        }
+        Iterator<T> iterator = iterator();
+        T result = iterator.next();
+        if (iterator.hasNext())
+            throw new MultipleElementsFoundException();
         return result;
     }
 

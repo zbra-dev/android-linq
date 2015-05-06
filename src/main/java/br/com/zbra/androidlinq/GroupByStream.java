@@ -24,7 +24,7 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
 
     @Override
     protected Iterator<Grouping<TKey, TElement>> reverseIterator() {
-        return getGroupingIterator(stream.reverseIterator());
+        return super.reverseIterator();
     }
 
     private Iterator<Grouping<TKey, TElement>> getGroupingIterator(Iterator<T> iterator) {

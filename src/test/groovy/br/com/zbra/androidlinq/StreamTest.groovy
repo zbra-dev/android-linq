@@ -28,8 +28,7 @@ class StreamTest extends GroovyTestCase {
                         .selectMany({ c -> c })
                         .toList()
 
-        // TODO is this right!? is this the way reverse is supposed to work?
-        assert [8, 9, 7, 5, 6, 4, 1, 2, 3] ==
+        assert [9, 8, 7, 6, 5, 4, 3, 2, 1] ==
                 stream([1..3, [4], 5..6, [7], 8..9])
                         .selectMany({ c -> c })
                         .reverse()
@@ -137,10 +136,6 @@ class StreamTest extends GroovyTestCase {
         // fail: param cannot be <= 0
         shouldFail(IllegalArgumentException.class, {
             stream(integers).take(-1).toList();
-        })
-
-        shouldFail(IllegalArgumentException.class, {
-            stream(integers).take(0).toList();
         })
 
         shouldFail(NoSuchElementException.class, {

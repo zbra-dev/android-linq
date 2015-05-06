@@ -3,28 +3,25 @@ package br.com.zbra.androidlinq;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class TakeStream<T> extends AbstractStream<T> {
+class SkipStream<T> extends AbstractStream<T> {
 
     private final int count;
     private final AbstractStream<T> stream;
 
-    TakeStream(AbstractStream<T> stream, int count) {
+    SkipStream(AbstractStream<T> stream, int count) {
         this.stream = stream;
-
-        if (count < 0)
-            throw new IllegalArgumentException("count must be greater than 0: " + count);
-
         this.count = count;
     }
 
     @Override
     public int count() {
-        return count == 0 ? 0 : Math.min(count, stream.count());
+        int originalCount = stream.count();
+        return count >= originalCount ? 0 : originalCount - count;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return new TakeIterator<>(stream.iterator(), count);
+        return new SkipIterator<>(stream.iterator(), count);
     }
 
     @Override
@@ -32,25 +29,25 @@ class TakeStream<T> extends AbstractStream<T> {
         return super.reverseIterator();
     }
 
-    private static class TakeIterator<T> implements Iterator<T> {
-        private long index = 0;
+    private static class SkipIterator<T> implements Iterator<T> {
         private final long count;
         private final Iterator<T> wrapped;
 
-        public TakeIterator(Iterator<T> wrapped,  long count) {
+        public SkipIterator(Iterator<T> wrapped, long count) {
             this.count = count;
             this.wrapped = wrapped;
+
+            for (int i = 0; i < count && wrapped.hasNext(); i++)
+                wrapped.next();
         }
 
         @Override
         public boolean hasNext() {
-            return index < count && wrapped.hasNext();
+            return wrapped.hasNext();
         }
 
         @Override
         public T next() {
-            index++;
-            if (index > count) throw new NoSuchElementException();
             return wrapped.next();
         }
     }

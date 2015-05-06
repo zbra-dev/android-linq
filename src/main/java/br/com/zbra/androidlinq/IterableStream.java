@@ -16,12 +16,4 @@ class IterableStream<T> extends AbstractStream<T> {
     public Iterator<T> iterator() {
         return iterable.iterator();
     }
-
-    @Override
-    protected Iterator<T> reverseIterator() {
-        List<T> list = new ArrayList<>();
-        for (T t : iterable)
-            list.add(t);
-        return new ListStream.ReverseListIterator<>(list);
-    }
 }

@@ -125,6 +125,14 @@ public interface Stream<T> extends Iterable<T> {
     public Stream<T> take(int count);
 
     /**
+     * Skips a specified number of contiguous elements from the start of a sequence then returns remaining elements.
+     *
+     * @param count The number of elements to skip.
+     * @return An Stream of type T that contains the elements after the number of elements skipped from the start of the input sequence.
+     */
+    public Stream<T> skip(int count);
+
+    /**
      * Returns distinct elements from a sequence by using the object {@code equals()} to compare values.
      *
      * @return An Stream of type T that contains distinct elements from the source sequence.
@@ -219,7 +227,8 @@ public interface Stream<T> extends Iterable<T> {
     /**
      * Returns the first element of a sequence.
      *
-     * @return The first element in the specified sequence or null if the sequence is empty.
+     * @return The first element in the specified sequence.
+     * @throws java.util.NoSuchElementException if the sequence is empty.
      */
     public T first();
 
@@ -227,9 +236,27 @@ public interface Stream<T> extends Iterable<T> {
      * Returns the first element in a sequence that satisfies a specified condition.
      *
      * @param predicate A function to test each element for a condition.
-     * @return The first element in the sequence that passes the test in the specified predicate function or null if none does.
+     * @return The first element in the sequence that passes the test in the specified predicate function.
+     * @throws java.util.NoSuchElementException if no element matches the sequence.
      */
     public T first(Predicate<T> predicate);
+
+    /**
+     * Returns the last element of a sequence.
+     *
+     * @return The last element in the specified sequence.
+     * @throws java.util.NoSuchElementException if the sequence is empty.
+     */
+    public T last();
+
+    /**
+     * Returns the last element in a sequence that satisfies a specified condition.
+     *
+     * @param predicate A function to test each element for a condition.
+     * @return The last element in the sequence that passes the test in the specified predicate function.
+     * @throws java.util.NoSuchElementException if no element matches the sequence.
+     */
+    public T last(Predicate<T> predicate);
 
     /**
      * Returns the only element of a sequence, or a default value if the sequence is empty; this method throws

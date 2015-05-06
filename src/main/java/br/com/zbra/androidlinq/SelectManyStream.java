@@ -22,7 +22,7 @@ class SelectManyStream<T, TSelected> extends AbstractStream<TSelected> {
 
     @Override
     protected Iterator<TSelected> reverseIterator() {
-        return new SelectManyIterator<>(selector, stream.reverseIterator());
+        return super.reverseIterator();
     }
 
     private static class SelectManyIterator<T, TSelected> implements Iterator<TSelected> {

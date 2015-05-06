@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+
 class ListStream<T> extends AbstractStream<T> {
 
     private List<T> source;
@@ -25,20 +26,5 @@ class ListStream<T> extends AbstractStream<T> {
     @Override
     protected Iterator<T> reverseIterator() {
         return new ReverseListIterator<>(source);
-    }
-
-    static class ReverseListIterator<T> implements Iterator<T> {
-        ListIterator<T> iterator;
-        public ReverseListIterator(List<T> list) {
-            iterator = list.listIterator(list.size());
-        }
-
-        public boolean hasNext() {
-            return iterator.hasPrevious();
-        }
-
-        public T next() {
-            return iterator.previous();
-        }
     }
 }

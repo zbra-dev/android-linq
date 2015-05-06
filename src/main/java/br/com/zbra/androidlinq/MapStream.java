@@ -3,6 +3,7 @@ package br.com.zbra.androidlinq;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.SortedSet;
 
 public class MapStream<K, V> extends AbstractStream<Map.Entry<K, V>> {
 
@@ -24,7 +25,7 @@ public class MapStream<K, V> extends AbstractStream<Map.Entry<K, V>> {
 
     @Override
     protected Iterator<Map.Entry<K, V>> reverseIterator() {
-        return new LinkedList<>(map.entrySet()).descendingIterator();
+        return iterator();
     }
 
 }
