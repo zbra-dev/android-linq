@@ -152,6 +152,26 @@ class StreamTest extends GroovyTestCase {
         assert stream(integers).take(100).toList().size() == 10
     }
 
+    void testSkip() {
+        def integers = 0..9 as int[]
+
+        // fail: param cannot be <= 0
+        shouldFail(IllegalArgumentException.class, {
+            stream(integers).skip(-1).toList();
+        })
+
+        shouldFail(NoSuchElementException.class, {
+            stream(integers).skip(10).iterator().next();
+        })
+
+        // skips 5 items
+        assert stream(integers).skip(5).toList().size() == 5
+        // skips 10 items (as many as are into the collection)
+        assert stream(integers).skip(10).toList().size() == 0
+        // skips 100 items (more than present in the collection)
+        assert stream(integers).skip(100).toList().size() == 0
+    }
+
     void testDistinct() {
         def integers = 0..9
 
@@ -219,27 +239,51 @@ class StreamTest extends GroovyTestCase {
         def integers = 0..9
 
         // first with no parameters
-        assert stream([]).first() == null
         assert stream(integers).first() == 0
+        shouldFail(NoSuchElementException.class, {
+            assert stream([]).first()
+        })
 
         // first passing Predicate
         assert stream(integers).first({ n -> n > 5 }) == 6
-        assert stream(integers).first({ n -> n > 10 }) == null
+        shouldFail(NoSuchElementException.class, {
+            assert stream(integers).first({ n -> n > 10 })
+        })
     }
 
+    void testLast() {
+        def integers = 0..9
+
+        // first with no parameters
+        assert stream(integers).last() == 9
+        shouldFail(NoSuchElementException.class, {
+            assert stream([]).last()
+        })
+
+        // first passing Predicate
+        assert stream(integers).last({ n -> n < 5 }) == 4
+        shouldFail(NoSuchElementException.class, {
+            assert stream(integers).last({ n -> n > 10 })
+        })
+    }
 
     void testSingle() {
         def integers = 0..9
 
         // single with no parameters
-        assert stream([]).single() == null
+        assert  stream([5]).single() == 5
+        shouldFail(NoSuchElementException.class, {
+            stream([]).single()
+        })
         shouldFail(MultipleElementsFoundException.class, {
             stream(integers).single()
         })
 
         // single passing Predicate
         assert stream(integers).single({ n -> n == 5 }) == 5
-        assert stream(integers).single({ n -> n == 10 }) == null
+        shouldFail(NoSuchElementException.class, {
+            stream(integers).single({ n -> n == 10 })
+        })
         shouldFail(MultipleElementsFoundException.class, {
             stream(integers).single({ n -> n > 5 })
         })

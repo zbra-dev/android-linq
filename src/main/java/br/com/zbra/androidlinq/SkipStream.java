@@ -1,7 +1,6 @@
 package br.com.zbra.androidlinq;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 class SkipStream<T> extends AbstractStream<T> {
 
@@ -9,6 +8,8 @@ class SkipStream<T> extends AbstractStream<T> {
     private final AbstractStream<T> stream;
 
     SkipStream(AbstractStream<T> stream, int count) {
+        if (count < 0) throw new IllegalArgumentException("count must be greater than 0: " + count);
+
         this.stream = stream;
         this.count = count;
     }
@@ -30,11 +31,9 @@ class SkipStream<T> extends AbstractStream<T> {
     }
 
     private static class SkipIterator<T> implements Iterator<T> {
-        private final long count;
         private final Iterator<T> wrapped;
 
         public SkipIterator(Iterator<T> wrapped, long count) {
-            this.count = count;
             this.wrapped = wrapped;
 
             for (int i = 0; i < count && wrapped.hasNext(); i++)

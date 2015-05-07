@@ -9,11 +9,9 @@ class TakeStream<T> extends AbstractStream<T> {
     private final AbstractStream<T> stream;
 
     TakeStream(AbstractStream<T> stream, int count) {
+        if (count < 0) throw new IllegalArgumentException("count must be greater than 0: " + count);
+
         this.stream = stream;
-
-        if (count < 0)
-            throw new IllegalArgumentException("count must be greater than 0: " + count);
-
         this.count = count;
     }
 
