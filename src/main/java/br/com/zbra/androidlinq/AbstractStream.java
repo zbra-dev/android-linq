@@ -41,22 +41,22 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
-    public <R> Stream<T> orderBy(Selector<T, R> keySelector, Comparator<R> comparator) {
-        return new OrderByStream<>(this, keySelector, comparator);
+    public <R> OrderedStream<T> orderBy(Selector<T, R> keySelector, Comparator<R> comparator) {
+        return OrderByStream.createAscending(this, keySelector, comparator);
     }
 
     @Override
-    public <R extends Comparable<R>> Stream<T> orderBy(Selector<T, R> keySelector) {
+    public <R extends Comparable<R>> OrderedStream<T> orderBy(Selector<T, R> keySelector) {
         return orderBy(keySelector, R::compareTo);
     }
 
     @Override
-    public <R> Stream<T> orderByDescending(Selector<T, R> keySelector, Comparator<R> comparator) {
-        return new OrderByDescendingStream<>(this, keySelector, comparator);
+    public <R> OrderedStream<T> orderByDescending(Selector<T, R> keySelector, Comparator<R> comparator) {
+        return OrderByStream.createDescending(this, keySelector, comparator);
     }
 
     @Override
-    public <R extends Comparable<R>> Stream<T> orderByDescending(Selector<T, R> keySelector) {
+    public <R extends Comparable<R>> OrderedStream<T> orderByDescending(Selector<T, R> keySelector) {
         return orderByDescending(keySelector, R::compareTo);
     }
 

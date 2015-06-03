@@ -68,7 +68,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> Stream<T> orderBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    public <TKey> OrderedStream<T> orderBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Sorts the elements of a sequence in ascending order according to a key.
@@ -77,7 +77,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> Stream<T> orderBy(Selector<T, TKey> keySelector);
+    public <TKey extends Comparable<TKey>> OrderedStream<T> orderBy(Selector<T, TKey> keySelector);
 
     /**
      * Sorts the elements of a sequence in descending order according to a key.
@@ -87,7 +87,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> Stream<T> orderByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    public <TKey> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Sorts the elements of a sequence in descending order according to a key.
@@ -96,7 +96,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> Stream<T> orderByDescending(Selector<T, TKey> keySelector);
+    public <TKey extends Comparable<TKey>> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector);
 
     /**
      * Reverses the order of the sequence.
