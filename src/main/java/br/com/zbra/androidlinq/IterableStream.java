@@ -1,8 +1,6 @@
 package br.com.zbra.androidlinq;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 class IterableStream<T> extends AbstractStream<T> {
 

@@ -20,6 +20,8 @@ class StreamTest extends GroovyTestCase {
 
         assert integers.collect { it * 2 } == stream.toList()
         assert integers.reverse().collect { it * 2 } == stream.reverse().toList()
+
+        assert integers.size() == stream.count()
     }
 
     void testSelectMany() {
@@ -71,9 +73,10 @@ class StreamTest extends GroovyTestCase {
         assert result.get(1).elements.toList() == [1, 3, 5, 7, 9]
 
         // groupBy with key and element selectors
-        result = stream(integers)
+        def groupByStream = stream(integers)
                 .groupBy(keySelector, elementSelector)
-                .toList()
+
+        result = groupByStream.toList()
 
         assert result.size() == 2
 
@@ -82,6 +85,14 @@ class StreamTest extends GroovyTestCase {
 
         assert result.get(1).key == "Odd"
         assert result.get(1).elements.toList() == [10, 30, 50, 70, 90]
+
+        // test reverse
+        def reverseResult = groupByStream.reverse().toList()
+        assert reverseResult.get(0).key == "Odd"
+        assert reverseResult.get(0).elements.toList() == [10, 30, 50, 70, 90]
+
+        assert reverseResult.get(1).key == "Even"
+        assert reverseResult.get(1).elements.toList() == [00, 20, 40, 60, 80]
     }
 
     void testOrderBy() {
@@ -103,6 +114,13 @@ class StreamTest extends GroovyTestCase {
                 stream(shuffledItems)
                         .orderBy({ n -> n }, { n1, n2 -> n1 - n2 })
                         .toList()
+
+
+        // orderBy count()
+        assert shuffledItems.size() ==
+                stream(shuffledItems)
+                        .orderBy({ n -> n }, { n1, n2 -> n1 - n2 })
+                        .count()
 
         // orderBy descending
         assert integersDescending ==
@@ -150,6 +168,10 @@ class StreamTest extends GroovyTestCase {
         assert stream(integers).take(10).toList().size() == 10
         // takes 100 items (get all items)
         assert stream(integers).take(100).toList().size() == 10
+        // takes 5 and count
+        assert stream(integers).take(5).count() == 5
+        // takes 5 and reverses
+        assert stream(integers).take(5).reverse().toList() == [4, 3, 2, 1, 0]
     }
 
     void testSkip() {
@@ -170,6 +192,10 @@ class StreamTest extends GroovyTestCase {
         assert stream(integers).skip(10).toList().size() == 0
         // skips 100 items (more than present in the collection)
         assert stream(integers).skip(100).toList().size() == 0
+        // skips 5 and count
+        assert stream(integers).skip(5).count() == 5
+        // skips 5 and reverses
+        assert stream(integers).skip(5).reverse().toList() == [9, 8, 7, 6, 5]
     }
 
     void testDistinct() {
@@ -379,4 +405,12 @@ class StreamTest extends GroovyTestCase {
         assert stream([]).toMap(keySelector).isEmpty()
         assert stream([]).toMap(keySelector, elementSelector).isEmpty()
     }
+
+    void testReverse() {
+        def integers = 0..9
+
+        assert integers ==
+                stream(integers).reverse().reverse().toList()
+    }
 }
+

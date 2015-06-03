@@ -8,7 +8,9 @@ import java.util.Map;
  */
 public final class Linq {
 
-    private Linq() { }
+    private Linq() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Decorates the passed {@code iterable} with a Stream.

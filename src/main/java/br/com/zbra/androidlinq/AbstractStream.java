@@ -7,8 +7,6 @@ import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static br.com.zbra.androidlinq.Linq.stream;
-
 abstract class AbstractStream<T> implements Stream<T> {
 
     protected Iterator<T> reverseIterator() {
@@ -54,7 +52,7 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public <R> Stream<T> orderByDescending(Selector<T, R> keySelector, Comparator<R> comparator) {
-        return stream(new OrderByDescendingStream<>(this, keySelector, comparator));
+        return new OrderByDescendingStream<>(this, keySelector, comparator);
     }
 
     @Override

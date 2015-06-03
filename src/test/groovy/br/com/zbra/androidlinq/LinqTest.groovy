@@ -1,8 +1,19 @@
 package br.com.zbra.androidlinq
 
+import java.lang.reflect.Constructor
+
 import static br.com.zbra.androidlinq.Linq.stream
 
 class LinqTest extends GroovyTestCase {
+
+    void testConstructor() {
+        Constructor<Linq> constructor = Linq.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        shouldFailWithCause(UnsupportedOperationException.class, {
+            constructor.newInstance();
+        });
+    }
+
     void testArrayStream() {
         def array = 0..9 as int[]
         def arrayStream = stream(array)
@@ -50,5 +61,9 @@ class LinqTest extends GroovyTestCase {
 
         assert stream(new HashMap<String, Integer>()).toList() == []
         assert stream(new HashMap<String, Integer>()).reverse().toList() == []
+
+        assert stream(map).count() == map.size()
+        assert stream(new HashMap<String, Integer>()).count() == 0
+
     }
 }
