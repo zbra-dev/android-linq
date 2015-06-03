@@ -249,29 +249,61 @@ class StreamTest extends GroovyTestCase {
         shouldFail(NoSuchElementException.class, {
             assert stream(integers).first({ n -> n > 10 })
         })
+
+        // firstOrDefault
+        assert stream([]).firstOrDefault(10) == 10
+        assert stream(integers).firstOrDefault(10) == 0
+
+        // firstOrDefault passing Predicate
+        assert stream(integers).firstOrDefault({ n -> n > 5 }, 10) == 6
+        assert stream(integers).firstOrDefault({ n -> n == 100 }, -1) == -1
+
+        // firstOrNull
+        assert stream([]).firstOrNull() == null
+        assert stream(integers).firstOrNull() == 0
+
+        // firstOrDefault passing Predicate
+        assert stream(integers).firstOrNull({ n -> n > 5 }) == 6
+        assert stream(integers).firstOrNull({ n -> n == 100 }) == null
     }
 
     void testLast() {
         def integers = 0..9
 
-        // first with no parameters
+        // last with no parameters
         assert stream(integers).last() == 9
         shouldFail(NoSuchElementException.class, {
             assert stream([]).last()
         })
 
-        // first passing Predicate
+        // last passing Predicate
         assert stream(integers).last({ n -> n < 5 }) == 4
         shouldFail(NoSuchElementException.class, {
             assert stream(integers).last({ n -> n > 10 })
         })
+
+        // lastOrDefault
+        assert stream([]).lastOrDefault(10) == 10
+        assert stream(integers).lastOrDefault(10) == 9
+
+        // lastOrDefault passing Predicate
+        assert stream(integers).lastOrDefault({ n -> n < 5 }, 10) == 4
+        assert stream(integers).lastOrDefault({ n -> n == 100 }, -1) == -1
+
+        // lastOrNull
+        assert stream([]).lastOrNull() == null
+        assert stream(integers).lastOrNull() == 9
+
+        // lastOrDefault passing Predicate
+        assert stream(integers).lastOrNull({ n -> n < 5 }) == 4
+        assert stream(integers).lastOrNull({ n -> n == 100 }) == null
     }
 
     void testSingle() {
         def integers = 0..9
 
         // single with no parameters
-        assert  stream([5]).single() == 5
+        assert stream([5]).single() == 5
         shouldFail(NoSuchElementException.class, {
             stream([]).single()
         })
@@ -286,6 +318,34 @@ class StreamTest extends GroovyTestCase {
         })
         shouldFail(MultipleElementsFoundException.class, {
             stream(integers).single({ n -> n > 5 })
+        })
+
+        // singleOrDefault with no parameters
+        assert stream([5]).singleOrDefault(10) == 5
+        assert stream([]).singleOrDefault(10) == 10
+        shouldFail(MultipleElementsFoundException.class, {
+            stream(integers).singleOrDefault(10)
+        })
+
+        // singleOrDefault passing Predicate
+        assert stream(integers).singleOrDefault({ n -> n == 5 }, -1) == 5
+        assert stream(integers).singleOrDefault({ n -> n == 10 }, -1) == -1
+        shouldFail(MultipleElementsFoundException.class, {
+            stream(integers).singleOrDefault({ n -> n > 5 }, -1)
+        })
+
+        // singleOrNull with no parameters
+        assert stream([5]).singleOrNull() == 5
+        assert stream([]).singleOrNull() == null
+        shouldFail(MultipleElementsFoundException.class, {
+            stream(integers).singleOrNull()
+        })
+
+        // singleOrNull passing Predicate
+        assert stream(integers).singleOrNull({ n -> n == 5 }) == 5
+        assert stream(integers).singleOrNull({ n -> n == 10 }) == null
+        shouldFail(MultipleElementsFoundException.class, {
+            stream(integers).singleOrNull({ n -> n > 5 })
         })
     }
 

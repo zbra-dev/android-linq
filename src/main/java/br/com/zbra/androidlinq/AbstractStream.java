@@ -151,13 +151,54 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
+    public T firstOrNull() {
+        return firstOrDefault(null);
+    }
+
+    @Override
+    public T firstOrNull(Predicate<T> predicate) {
+        return firstOrDefault(predicate, null);
+    }
+
+    @Override
+    public T firstOrDefault(T defaultValue) {
+        Iterator<T> iterator = iterator();
+        return iterator.hasNext() ? iterator.next() : defaultValue;
+    }
+
+    @Override
+    public T firstOrDefault(Predicate<T> predicate, T defaultValue) {
+        return where(predicate).firstOrDefault(defaultValue);
+    }
+
+    @Override
     public T last() {
-        return reverseIterator().next();
+        return reverse().first();
     }
 
     @Override
     public T last(Predicate<T> predicate) {
-        return where(predicate).last();
+        return reverse().first(predicate);
+    }
+
+    @Override
+    public T lastOrNull() {
+        return lastOrDefault(null);
+    }
+
+    @Override
+    public T lastOrNull(Predicate<T> predicate) {
+        return lastOrDefault(predicate, null);
+    }
+
+    @Override
+    public T lastOrDefault(T defaultValue) {
+        return reverse().firstOrDefault(defaultValue);
+    }
+
+    @Override
+    public T lastOrDefault(Predicate<T> predicate, T defaultValue) {
+        return reverse().firstOrDefault(predicate, defaultValue);
     }
 
     @Override
@@ -172,6 +213,32 @@ abstract class AbstractStream<T> implements Stream<T> {
     @Override
     public T single(Predicate<T> predicate) throws MultipleElementsFoundException {
         return where(predicate).single();
+    }
+
+    @Override
+    public T singleOrNull() {
+        return singleOrDefault(null);
+    }
+
+    @Override
+    public T singleOrNull(Predicate<T> predicate) {
+        return singleOrDefault(predicate, null);
+    }
+
+    @Override
+    public T singleOrDefault(T defaultValue) {
+        Iterator<T> iterator = iterator();
+        if (!iterator.hasNext())
+            return defaultValue;
+        T result = iterator.next();
+        if (iterator.hasNext())
+            throw new MultipleElementsFoundException();
+        return result;
+    }
+
+    @Override
+    public T singleOrDefault(Predicate<T> predicate, T defaultValue) {
+        return where(predicate).singleOrDefault(defaultValue);
     }
 
     @Override

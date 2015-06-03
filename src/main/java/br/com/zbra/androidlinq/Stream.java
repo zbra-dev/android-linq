@@ -6,6 +6,7 @@ import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Decorates {@code Iterable<T>} objects to enable use of Linq like expressions.
@@ -225,47 +226,130 @@ public interface Stream<T> extends Iterable<T> {
     public int count();
 
     /**
-     * Returns the first element of a sequence.
+     * Returns the first element of a sequence; this method throws an exception if the sequence is empty.
      *
      * @return The first element in the specified sequence.
-     * @throws java.util.NoSuchElementException if the sequence is empty.
+     * @throws NoSuchElementException if the sequence is empty.
      */
     public T first();
 
     /**
-     * Returns the first element in a sequence that satisfies a specified condition.
+     * Returns the first element in a sequence that satisfies the specified condition; this method throws
+     * an exception if no element in the sequence satisfies the condition.
      *
      * @param predicate A function to test each element for a condition.
      * @return The first element in the sequence that passes the test in the specified predicate function.
-     * @throws java.util.NoSuchElementException if no element matches the sequence.
+     * @throws NoSuchElementException if no element in the sequence satisfies the condition.
      */
     public T first(Predicate<T> predicate);
 
     /**
-     * Returns the last element of a sequence.
+     * Returns the first element of a sequence, or null if empty.
+     *
+     * @return The first element in the specified sequence, or null if empty.
+     */
+    public T firstOrNull();
+
+    /**
+     * Returns the first element in a sequence that satisfies a specified condition, or null if none does.
+     *
+     * @param predicate A function to test each element for a condition.
+     * @return The first element in the sequence that passes the test in the specified predicate function, or null if none does.
+     */
+    public T firstOrNull(Predicate<T> predicate);
+
+    /**
+     * Returns the first element of a sequence, or defaultValue if empty.
+     *
+     * @return The first element in the specified sequence, or defaultValue if empty.
+     */
+    public T firstOrDefault(T defaultValue);
+
+    /**
+     * Returns the first element in a sequence that satisfies a specified condition, or defaultValue if none does.
+     *
+     * @param predicate A function to test each element for a condition.
+     * @return The first element in the sequence that passes the test in the specified predicate function, or or defaultValue if none does.
+     */
+    public T firstOrDefault(Predicate<T> predicate, T defaultValue);
+
+    /**
+     * Returns the last element of a sequence; this method throws an exception if the sequence is empty.
      *
      * @return The last element in the specified sequence.
-     * @throws java.util.NoSuchElementException if the sequence is empty.
+     * @throws NoSuchElementException if the sequence is empty.
      */
     public T last();
 
     /**
-     * Returns the last element in a sequence that satisfies a specified condition.
+     * Returns the last element in a sequence that satisfies the specified condition; this method throws
+     * an exception if no element in the sequence satisfies the condition.
      *
      * @param predicate A function to test each element for a condition.
      * @return The last element in the sequence that passes the test in the specified predicate function.
-     * @throws java.util.NoSuchElementException if no element matches the sequence.
+     * @throws NoSuchElementException if no element in the sequence satisfies the condition.
      */
     public T last(Predicate<T> predicate);
 
     /**
-     * Returns the only element of a sequence, or a default value if the sequence is empty; this method throws
+     * Returns the last element of a sequence, or null if empty.
+     *
+     * @return The last element in the specified sequence, or null if empty.
+     */
+    public T lastOrNull();
+
+    /**
+     * Returns the last element in a sequence that satisfies a specified condition, or null if none does.
+     *
+     * @param predicate A function to test each element for a condition.
+     * @return The last element in the sequence that passes the test in the specified predicate function, or null if none does.
+     */
+    public T lastOrNull(Predicate<T> predicate);
+
+    /**
+     * Returns the last element of a sequence, or defaultValue if empty.
+     *
+     * @return The last element in the specified sequence, or defaultValue if empty.
+     */
+    public T lastOrDefault(T defaultValue);
+
+    /**
+     * Returns the last element in a sequence that satisfies a specified condition, or defaultValue if none does.
+     *
+     * @param predicate A function to test each element for a condition.
+     * @return The last element in the sequence that passes the test in the specified predicate function, or or defaultValue if none does.
+     */
+    public T lastOrDefault(Predicate<T> predicate, T defaultValue);
+
+    /**
+     * Returns the only element of a sequence; this method throws an exception if there is more than
+     * one element in the sequence or if the sequence is empty.
+     *
+     * @return The single element of the input sequence, or default(TSource) if the sequence contains no elements.
+     * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
+     * @throws NoSuchElementException If the sequence is empty.
+     */
+    public T single() throws MultipleElementsFoundException;
+
+    /**
+     * Returns the only element of a sequence that satisfies a specified condition; this method throws an exception
+     * if multiple elements in the sequence satisfy the condition or if none does.
+     *
+     * @param predicate A function to test an element for a condition.
+     * @return The single element of the input sequence that satisfies the condition, or null if no such element is found.
+     * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
+     * @throws NoSuchElementException If no element in the sequence satisfies the condition.
+     */
+    public T single(Predicate<T> predicate) throws MultipleElementsFoundException;
+
+    /**
+     * Returns the only element of a sequence, or a null if the sequence is empty; this method throws
      * an exception if there is more than one element in the sequence.
      *
      * @return The single element of the input sequence, or default(TSource) if the sequence contains no elements.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T single() throws MultipleElementsFoundException;
+    public T singleOrNull();
 
     /**
      * Returns the only element of a sequence that satisfies a specified condition or null if
@@ -275,7 +359,26 @@ public interface Stream<T> extends Iterable<T> {
      * @return The single element of the input sequence that satisfies the condition, or null if no such element is found.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T single(Predicate<T> predicate) throws MultipleElementsFoundException;
+    public T singleOrNull(Predicate<T> predicate);
+
+    /**
+     * Returns the only element of a sequence, or a defaultValue if the sequence is empty; this method throws
+     * an exception if there is more than one element in the sequence.
+     *
+     * @return The single element of the input sequence, or default(TSource) if the sequence contains no elements.
+     * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
+     */
+    public T singleOrDefault(T defaultValue);
+
+    /**
+     * Returns the only element of a sequence that satisfies a specified condition or defaultValue if
+     * no such element exists; this method throws an exception if more than one element satisfies the condition.
+     *
+     * @param predicate A function to test an element for a condition.
+     * @return The single element of the input sequence that satisfies the condition, or null if no such element is found.
+     * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
+     */
+    public T singleOrDefault(Predicate<T> predicate, T defaultValue);
 
     /**
      * Creates a List from a Stream.
