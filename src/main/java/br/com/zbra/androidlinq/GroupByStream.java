@@ -2,7 +2,12 @@ package br.com.zbra.androidlinq;
 
 import br.com.zbra.androidlinq.delegate.Selector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import static br.com.zbra.androidlinq.Linq.stream;
 
 
 class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TElement>> {
@@ -28,25 +33,22 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
     }
 
     private Iterator<Grouping<TKey, TElement>> getGroupingIterator(Iterator<T> iterator) {
-        HashMap<TKey, List<TElement>> map = new HashMap<>();
+        HashMap<TKey, GroupingImpl<TKey, TElement>> map = new HashMap<>();
+        List<Grouping<TKey, TElement>> groupings = new ArrayList<>();
 
         while (iterator.hasNext()) {
             T t = iterator.next();
             TKey key = keySelector.select(t);
             TElement element = elementSelector.select(t);
 
-            List<TElement> elements = map.get(key);
-            if (elements == null) {
-                elements = new ArrayList<>();
-                map.put(key, elements);
+            GroupingImpl<TKey, TElement> grouping = map.get(key);
+            if (grouping == null) {
+                grouping = new GroupingImpl<>(key);
+                map.put(key, grouping);
+                groupings.add(grouping);
             }
 
-            elements.add(element);
-        }
-
-        List<Grouping<TKey, TElement>> groupings = new ArrayList<>();
-        for (Map.Entry<TKey, List<TElement>> entry : map.entrySet()) {
-            groupings.add(new GroupingImpl<>(entry.getKey(), Linq.stream(entry.getValue())));
+            grouping.source.add(element);
         }
 
         return groupings.iterator();
@@ -54,11 +56,11 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
 
     private static class GroupingImpl<TKey, TElement> implements Grouping<TKey, TElement> {
         private final TKey key;
-        private final Stream<TElement> elements;
+        private final List<TElement> source;
 
-        private GroupingImpl(TKey key, Stream<TElement> elements) {
+        private GroupingImpl(TKey key) {
             this.key = key;
-            this.elements = elements;
+            this.source = new ArrayList<>();
         }
 
         public TKey getKey() {
@@ -66,7 +68,7 @@ class GroupByStream<T, TKey, TElement> extends AbstractStream<Grouping<TKey, TEl
         }
 
         public Stream<TElement> getElements() {
-            return elements;
+            return stream(source);
         }
     }
 }

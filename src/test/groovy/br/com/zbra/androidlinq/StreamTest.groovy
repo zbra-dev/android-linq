@@ -95,6 +95,7 @@ class StreamTest extends GroovyTestCase {
         assert reverseResult.get(1).elements.toList() == [00, 20, 40, 60, 80]
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     void testOrderBy() {
         def integers = 0..9
         def integersDescending = 9..0
@@ -115,7 +116,6 @@ class StreamTest extends GroovyTestCase {
                 stream(shuffledItems)
                         .orderBy({ n -> n }, numbersComparator)
                         .toList()
-
 
         // orderBy count()
         assert shuffledItems.size() ==
@@ -142,7 +142,6 @@ class StreamTest extends GroovyTestCase {
         assert stream(shuffledItems).orderByDescending({ n -> n }).toList() ==
                 stream(shuffledItems).orderBy({ n -> n }).reverse().toList()
 
-
         // thenBy & thenByDescending over orderBy
         def matrix = [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]]
         def shuffledMatrix = []
@@ -152,53 +151,53 @@ class StreamTest extends GroovyTestCase {
 
         assert [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]] ==
                 stream(shuffledMatrix)
-                        .orderBy({n -> n['0']})
-                        .thenBy({n -> n['1']})
+                        .orderBy({ n -> n[0] })
+                        .thenBy({ n -> n[1] })
                         .toList()
 
         assert [[1, 3], [1, 2], [1, 1], [2, 3], [2, 2], [2, 1], [3, 3], [3, 2], [3, 1]] ==
                 stream(shuffledMatrix)
-                        .orderBy({n -> n['0']})
-                        .thenByDescending({ n -> n['1']})
+                        .orderBy({ n -> n[0] })
+                        .thenByDescending({ n -> n[1] })
                         .toList()
 
 
         assert [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]] ==
                 stream(shuffledMatrix)
-                        .orderBy({n -> n['0']})
-                        .thenBy({n -> n['1']}, numbersComparator)
+                        .orderBy({ n -> n[0] })
+                        .thenBy({ n -> n[1] }, numbersComparator)
                         .toList()
 
         assert [[1, 3], [1, 2], [1, 1], [2, 3], [2, 2], [2, 1], [3, 3], [3, 2], [3, 1]] ==
                 stream(shuffledMatrix)
-                        .orderBy({n -> n['0']})
-                        .thenByDescending({ n -> n['1']}, numbersComparator)
+                        .orderBy({ n -> n[0] })
+                        .thenByDescending({ n -> n[1] }, numbersComparator)
                         .toList()
 
         // thenBy & thenByDescending over orderByDescending
         assert [[3, 1], [3, 2], [3, 3], [2, 1], [2, 2], [2, 3], [1, 1], [1, 2], [1, 3]] ==
                 stream(shuffledMatrix)
-                        .orderByDescending({n -> n['0']})
-                        .thenBy({n -> n['1']})
+                        .orderByDescending({ n -> n[0] })
+                        .thenBy({ n -> n[1] })
                         .toList()
 
         assert [[3, 3], [3, 2], [3, 1], [2, 3], [2, 2], [2, 1], [1, 3], [1, 2], [1, 1]] ==
                 stream(shuffledMatrix)
-                        .orderByDescending({n -> n['0']})
-                        .thenByDescending({ n -> n['1']})
+                        .orderByDescending({ n -> n[0] })
+                        .thenByDescending({ n -> n[1] })
                         .toList()
 
 
         assert [[3, 1], [3, 2], [3, 3], [2, 1], [2, 2], [2, 3], [1, 1], [1, 2], [1, 3]] ==
                 stream(shuffledMatrix)
-                        .orderByDescending({n -> n['0']})
-                        .thenBy({n -> n['1']}, numbersComparator)
+                        .orderByDescending({ n -> n[0] })
+                        .thenBy({ n -> n[1] }, numbersComparator)
                         .toList()
 
         assert [[3, 3], [3, 2], [3, 1], [2, 3], [2, 2], [2, 1], [1, 3], [1, 2], [1, 1]] ==
                 stream(shuffledMatrix)
-                        .orderByDescending({n -> n['0']})
-                        .thenByDescending({ n -> n['1']}, numbersComparator)
+                        .orderByDescending({ n -> n[0] })
+                        .thenByDescending({ n -> n[1] }, numbersComparator)
                         .toList()
     }
 
