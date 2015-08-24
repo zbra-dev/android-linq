@@ -13,19 +13,31 @@ Anyway, you need not to worry. Just add this to your Gradle/Maven and suffer wit
 
 # Usage
 
-### Gradle
-
 To use Android LINQ, first, go and setup [Retrolambda for Android](https://github.com/evant/gradle-retrolambda) so we can use those fancy closures from Java 8 (don't worry, its just some extra lines on your build.gradle file). 
 
 Now, just add this line to your project build.gradle (files are hosted in Bintray jCenter, so don't forget to add it to the repositories list too).
+
+### Maven 
+
 ```
-  repositories {
-      jcenter()
-  }
-  ...
+<dependency>
+  <groupId>br.com.zbra</groupId>
+  <artifactId>android-linq</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+### Gradle
+
+```
+...
+repositories {
+    jcenter()
+}
+...
 ```
 ```
-  compile 'br.com.zbra:android-linq:1.0.0'
+compile 'br.com.zbra:android-linq:1.0.0'
 ```
 
 # Examples
