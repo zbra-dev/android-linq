@@ -51,7 +51,7 @@ List<String> contactNames =
           .toList();
 ````
 
-##### Get contacts which are 27 yrs or older
+##### Get contacts who are 27 years or older
 ```
 List<Contact> contacts = 
       stream(contacts)
