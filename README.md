@@ -42,7 +42,7 @@ compile 'br.com.zbra:android-linq:1.0.0'
 
 # Examples
 
-##### Get names from contacts
+### Get names from contacts
 
 ```
 List<String> contactNames = 
@@ -51,14 +51,14 @@ List<String> contactNames =
           .toList();
 ````
 
-##### Get contacts who are 27 years or older
+### Get contacts who are 27 years or older
 ```
 List<Contact> contacts = 
       stream(contacts)
           .where(c - > c.getAge() >= 27)
           .toList();
 ```
-##### Sort contacts by name, then by age
+### Sort contacts by name, then by age
 ```
 List<Contact> contactNames = 
       stream(contacts)
@@ -67,7 +67,7 @@ List<Contact> contactNames =
           .toList();
 ```
 
-##### Group products by category
+### Group products by category
 
 ```
 Map<Category, Stream<Product>> productsByCategory
@@ -76,7 +76,7 @@ Map<Category, Stream<Product>> productsByCategory
           .toMap(g -> g.getKey() /* Category */, g.getElements() /* Stream<Product> */)
 ```
 
-##### Calculate the total price of a purchase
+### Calculate the total price of a purchase
 
 ```
 double total = 
