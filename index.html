@@ -1,41 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
+    <meta charset="UTF-8">
     <title>Android LINQ  by zbra-solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Android LINQ </h1>
-        <h2>Manipulate collections easily using C# LINQ style queries and, preferably, Java 8 closures.</h2>
-        <a href="https://github.com/zbra-solutions/android-linq" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <section class="page-header">
+      <h1 class="project-name">Android LINQ </h1>
+      <h2 class="project-tagline">Manipulate collections easily using C# LINQ style queries and Java 8 closures.</h2>
+      <a href="https://github.com/zbra-solutions/android-linq" class="btn">View on GitHub</a>
+      <a href="https://github.com/zbra-solutions/android-linq/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/zbra-solutions/android-linq/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+    <section class="main-content">
+      <h1>
 <a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h1>
 
 <p>Android LINQ is a small subset of collection manipulation utilities inspired by Microsoft C# LINQ library and targeted at Android developers looking to use new Java 8 Stream() API. </p>
 
 <p>By using <a href="https://github.com/evant/gradle-retrolambda">Retrolambda for Android</a>, developers can leverage the power of closures and other new Java 8 features. Unfortunately, it doesn't allow the usage of the Stream API which is arguably its most awesome feature. However, by using it in conjunction with Android LINQ, its possible to perform powerful collection manipulation in just a few lines of code. </p>
-
-<p>All in all, if you are not huge fan of Java 8 closures and stuff, you can use Android LINQ stand alone with default Anonymous Class implementations, but this will make things far less attractive to the eyes I must admit. Still feasible...</p>
 
 <p>Android LINQ has little to no impact on performance because it does not make use of reflection or proxies. As its C# counterpart it's based on the <a href="http://en.wikipedia.org/wiki/Monad_(functional_programming)">monads</a> concept, which is a fancy word to describe a sort of <a href="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator</a> pattern implementation, and many sorting and ordering are just making calls to the default Java API.</p>
 
@@ -44,44 +33,96 @@
 <h1>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
+<p>To use Android LINQ, first, go and setup <a href="https://github.com/evant/gradle-retrolambda">Retrolambda for Android</a> so we can use those fancy closures from Java 8 (don't worry, its just some extra lines on your build.gradle file). </p>
+
+<p>Now, just add this line to your project build.gradle (files are hosted in Bintray jCenter, so don't forget to add it to the repositories list too).</p>
+
 <h3>
 <a id="maven" class="anchor" href="#maven" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maven</h3>
 
-<p>Coming soon!</p>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;br.com.zbra&lt;/groupId&gt;
+  &lt;artifactId&gt;android-linq&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
 
 <h3>
 <a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle</h3>
 
-<p>Coming soon!</p>
+<pre><code>...
+repositories {
+    jcenter()
+}
+...
+</code></pre>
+
+<pre><code>compile 'br.com.zbra:android-linq:1.0.0'
+</code></pre>
 
 <h1>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h1>
 
-<p>Coming soon!</p>
+<h3>
+<a id="get-names-from-contacts" class="anchor" href="#get-names-from-contacts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get names from contacts</h3>
+
+<pre><code>List&lt;String&gt; contactNames = 
+      stream(contacts)
+          .select(c -&gt; c.getName())
+          .toList();
+</code></pre>
+
+<h3>
+<a id="get-contacts-who-are-27-years-or-older" class="anchor" href="#get-contacts-who-are-27-years-or-older" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get contacts who are 27 years or older</h3>
+
+<pre><code>List&lt;Contact&gt; contacts = 
+      stream(contacts)
+          .where(c - &gt; c.getAge() &gt;= 27)
+          .toList();
+</code></pre>
+
+<h3>
+<a id="sort-contacts-by-name-then-by-age" class="anchor" href="#sort-contacts-by-name-then-by-age" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sort contacts by name, then by age</h3>
+
+<pre><code>List&lt;Contact&gt; contactNames = 
+      stream(contacts)
+          .orderBy(c - &gt; c.getName())
+          .thenBy(c - &gt; c.Age())
+          .toList();
+</code></pre>
+
+<h3>
+<a id="group-products-by-category" class="anchor" href="#group-products-by-category" aria-hidden="true"><span class="octicon octicon-link"></span></a>Group products by category</h3>
+
+<pre><code>Map&lt;Category, Stream&lt;Product&gt;&gt; productsByCategory
+      stream(products)
+          .groupBy(p -&gt; p.getCategory())
+          .toMap(g -&gt; g.getKey() /* Category */, g.getElements() /* Stream&lt;Product&gt; */)
+</code></pre>
+
+<h3>
+<a id="calculate-the-total-price-of-a-purchase" class="anchor" href="#calculate-the-total-price-of-a-purchase" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calculate the total price of a purchase</h3>
+
+<pre><code>double total = 
+      stream(purchase.getItems())
+          .sum(i -&gt; i.getPrice());
+</code></pre>
+
+<p>There are many more methods: first(), single(), distinct(), any(), aggregate(), count(), take(), skip() and reverse() are all available. Have fun!</p>
 
 <h1>
 <a id="pull-requests-are-welcome" class="anchor" href="#pull-requests-are-welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pull Requests Are Welcome!</h1>
 
 <p>Please, send feedback and pull requests a plenty! 
 If you find a bug, a missing feature or have an improvement suggestion, don't be afraid to file an issue and we will do our best to attend it.</p>
-        </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/zbra-solutions/android-linq/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/zbra-solutions/android-linq/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/zbra-solutions/android-linq">Android LINQ </a> is maintained by <a href="https://github.com/zbra-solutions">zbra-solutions</a>.</span>
 
-          <p class="repo-owner"><a href="https://github.com/zbra-solutions/android-linq"></a> is maintained by <a href="https://github.com/zbra-solutions">zbra-solutions</a>.</p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
+    </section>
 
   
   </body>
