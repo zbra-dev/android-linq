@@ -8,7 +8,6 @@
     <groupId>br.com.zbra</groupId>
     <artifactId>android-linq</artifactId>
     <version>1.0.0</version>
-	<name>Android LINQ</name>
 	<packaging>jar</packaging>
 
     <properties>
@@ -16,4 +15,23 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <name>Android LINQ</name>
+    <url>http://zbra-solutions.github.io/android-linq/</url>
+    <description>Manipulate collections easily using C# LINQ style queries and Java 8 closures.</description>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>brunovinicius</id>
+            <name>Bruno Vinicius</name>
+            <email>bruno.vinicius.ds@gmail.com</email>
+        </developer>
+    </developers>
 </project>
