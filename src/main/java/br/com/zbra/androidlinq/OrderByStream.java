@@ -52,26 +52,46 @@ class OrderByStream<T> extends AbstractStream<T> implements OrderedStream<T> {
     }
 
     @Override
-    public <TKey> OrderedStream<T> thenBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator) {
-        this.queuedComparators.addComparator((T t1, T t2) -> comparator.compare(keySelector.select(t1), keySelector.select(t2)));
+    public <TKey> OrderedStream<T> thenBy(final Selector<T, TKey> keySelector, final Comparator<TKey> comparator) {
+        this.queuedComparators.addComparator(new java.util.Comparator<T>() {
+            @Override
+            public int compare(T t1, T t2) {
+                return comparator.compare(keySelector.select(t1), keySelector.select(t2));
+            }
+        });
         return this;
     }
 
     @Override
     public <TKey extends Comparable<TKey>> OrderedStream<T> thenBy(Selector<T, TKey> keySelector) {
-        thenBy(keySelector, TKey::compareTo);
+        thenBy(keySelector, new Comparator<TKey>() {
+            @Override
+            public int compare(TKey tKey, TKey o) {
+                return tKey.compareTo(o);
+            }
+        });
         return this;
     }
 
     @Override
-    public <TKey> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator) {
-        this.queuedComparators.addComparator((T t1, T t2) -> comparator.compare(keySelector.select(t1), keySelector.select(t2)) * -1);
+    public <TKey> OrderedStream<T> thenByDescending(final Selector<T, TKey> keySelector, final Comparator<TKey> comparator) {
+        this.queuedComparators.addComparator(new java.util.Comparator<T>() {
+            @Override
+            public int compare(T t1, T t2) {
+                return comparator.compare(keySelector.select(t1), keySelector.select(t2)) * -1;
+            }
+        });
         return this;
     }
 
     @Override
     public <TKey extends Comparable<TKey>> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector) {
-        thenByDescending(keySelector, TKey::compareTo);
+        thenByDescending(keySelector, new Comparator<TKey>() {
+            @Override
+            public int compare(TKey tKey, TKey o) {
+                return tKey.compareTo(o);
+            }
+        });
         return this;
     }
 

@@ -59,5 +59,10 @@ class SelectManyStream<T, TSelected> extends AbstractStream<TSelected> {
             hasNext = null;
             return selectedIterator.next();
         }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
     }
 }

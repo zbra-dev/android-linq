@@ -51,5 +51,10 @@ class TakeStream<T> extends AbstractStream<T> {
             if (index > count) throw new NoSuchElementException();
             return wrapped.next();
         }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
     }
 }

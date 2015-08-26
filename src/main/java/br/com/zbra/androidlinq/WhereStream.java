@@ -54,6 +54,11 @@ class WhereStream<T> extends AbstractStream<T> {
             return next;
         }
 
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
+
         private void evaluateNext() {
             if (nextEvaluated)
                 return;

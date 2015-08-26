@@ -49,5 +49,10 @@ class SkipStream<T> extends AbstractStream<T> {
         public T next() {
             return wrapped.next();
         }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
     }
 }

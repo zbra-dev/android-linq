@@ -46,5 +46,10 @@ class SelectStream<T, TSelected> extends AbstractStream<TSelected> {
         public TSelected next() {
             return selector.select(iterator.next());
         }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
     }
 }

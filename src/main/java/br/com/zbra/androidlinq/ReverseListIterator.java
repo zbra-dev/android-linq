@@ -11,11 +11,18 @@ public class ReverseListIterator<T> implements Iterator<T> {
         iterator = list.listIterator(list.size());
     }
 
+    @Override
     public boolean hasNext() {
         return iterator.hasPrevious();
     }
 
+    @Override
     public T next() {
         return iterator.previous();
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("remove");
     }
 }

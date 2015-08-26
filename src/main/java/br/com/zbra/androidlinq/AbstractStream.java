@@ -37,7 +37,12 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public <K> Stream<Grouping<K, T>> groupBy(Selector<T, K> keySelector) {
-        return groupBy(keySelector, t -> t);
+        return groupBy(keySelector, new Selector<T, T>() {
+            @Override
+            public T select(T t) {
+                return t;
+            }
+        });
     }
 
     @Override
@@ -47,7 +52,12 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public <R extends Comparable<R>> OrderedStream<T> orderBy(Selector<T, R> keySelector) {
-        return orderBy(keySelector, R::compareTo);
+        return orderBy(keySelector, new Comparator<R>() {
+            @Override
+            public int compare(R r, R o) {
+                return r.compareTo(o);
+            }
+        });
     }
 
     @Override
@@ -56,8 +66,13 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
-    public <R extends Comparable<R>> OrderedStream<T> orderByDescending(Selector<T, R> keySelector) {
-        return orderByDescending(keySelector, R::compareTo);
+    public <R extends Comparable<R>> OrderedStream<T> orderByDescending(final Selector<T, R> keySelector) {
+        return orderByDescending(keySelector, new Comparator<R>() {
+            @Override
+            public int compare(R r, R o) {
+                return r.compareTo(o);
+            }
+        });
     }
 
     @Override
@@ -84,43 +99,83 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public Stream<T> distinct() {
-        HashSet<T> set = new HashSet<>();
-        return where(set::add);
+        final HashSet<T> set = new HashSet<>();
+        return where(new Predicate<T>() {
+            @Override
+            public boolean apply(T e) {
+                return set.add(e);
+            }
+        });
     }
 
     @Override
-    public Byte sum(SelectorByte<T> selector) {
-        return aggregate((byte)0, (Byte v, T t) -> (byte)(v + selector.select(t)));
+    public Byte sum(final SelectorByte<T> selector) {
+        return aggregate((byte)0, new Aggregator<T, Byte>() {
+            @Override
+            public Byte aggregate(Byte v, T t) {
+                return (byte) (v + selector.select(t));
+            }
+        });
     }
 
     @Override
-    public Short sum(SelectorShort<T> selector) {
-        return aggregate((short)0, (Short v, T t) -> (short)(v + selector.select(t)));
+    public Short sum(final SelectorShort<T> selector) {
+        return aggregate((short)0, new Aggregator<T, Short>() {
+            @Override
+            public Short aggregate(Short v, T t) {
+                return (short) (v + selector.select(t));
+            }
+        });
     }
 
     @Override
-    public Integer sum(SelectorInteger<T> selector) {
-        return aggregate(0, (Integer v, T t) -> v + selector.select(t));
+    public Integer sum(final SelectorInteger<T> selector) {
+        return aggregate(0, new Aggregator<T, Integer>() {
+            @Override
+            public Integer aggregate(Integer v, T t) {
+                return v + selector.select(t);
+            }
+        });
     }
 
     @Override
-    public Long sum(SelectorLong<T> selector) {
-        return aggregate(0l, (Long v, T t) -> v + selector.select(t));
+    public Long sum(final SelectorLong<T> selector) {
+        return aggregate(0l, new Aggregator<T, Long>() {
+            @Override
+            public Long aggregate(Long v, T t) {
+                return v + selector.select(t);
+            }
+        });
     }
 
     @Override
-    public Float sum(SelectorFloat<T> selector) {
-        return aggregate(0f, (Float v, T t) -> v + selector.select(t));
+    public Float sum(final SelectorFloat<T> selector) {
+        return aggregate(0f, new Aggregator<T, Float>() {
+            @Override
+            public Float aggregate(Float v, T t) {
+                return v + selector.select(t);
+            }
+        });
     }
 
     @Override
-    public Double sum(SelectorDouble<T> selector) {
-        return aggregate(0d, (Double v, T t) -> v + selector.select(t));
+    public Double sum(final SelectorDouble<T> selector) {
+        return aggregate(0d, new Aggregator<T, Double>() {
+            @Override
+            public Double aggregate(Double v, T t) {
+                return v + selector.select(t);
+            }
+        });
     }
 
     @Override
-    public BigDecimal sum(SelectorBigDecimal<T> selector) {
-        return aggregate(new BigDecimal(0), (BigDecimal v, T t) -> v.add(selector.select(t)));
+    public BigDecimal sum(final SelectorBigDecimal<T> selector) {
+        return aggregate(new BigDecimal(0), new Aggregator<T, BigDecimal>() {
+            @Override
+            public BigDecimal aggregate(BigDecimal v, T t) {
+                return v.add(selector.select(t));
+            }
+        });
     }
 
     @Override
@@ -135,7 +190,12 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public int count() {
-        return aggregate(0, (a, t) -> a + 1);
+        return aggregate(0, new Aggregator<T, Integer>() {
+            @Override
+            public Integer aggregate(Integer a, T t) {
+                return a + 1;
+            }
+        });
     }
 
     @Override
@@ -249,7 +309,12 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public <K> Map<K, T> toMap(Selector<T, K> keySelector) {
-        return toMap(keySelector, t -> t);
+        return toMap(keySelector, new Selector<T, T>() {
+            @Override
+            public T select(T t) {
+                return t;
+            }
+        });
     }
 
     @Override

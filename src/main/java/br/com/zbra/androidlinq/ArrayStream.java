@@ -53,5 +53,10 @@ class ArrayStream<T> extends AbstractStream<T> {
             index += increment;
             return nextElement;
         }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
     }
 }
