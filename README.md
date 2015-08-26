@@ -14,6 +14,10 @@ Anyway, you need not to worry. Just add this to your Gradle/Maven and suffer wit
 
 ## Usage
 
+### Latest Version 
+
+[ ![Download](https://api.bintray.com/packages/brunovinicius/maven/android-linq/images/download.svg) ](https://bintray.com/brunovinicius/maven/android-linq/_latestVersion)
+
 ### Android
 
 To use Android LINQ, first, go and setup [Retrolambda for Android](https://github.com/evant/gradle-retrolambda) so we can use those fancy closures from Java 8 (don't worry, its just some extra lines on your build.gradle file). 
@@ -30,7 +34,7 @@ repositories {
 ...
 ```
 ```
-compile 'br.com.zbra:android-linq:1.0.0'
+compile 'br.com.zbra:android-linq:{latest-version}'
 ```
 
 ### Standard Java 8
@@ -54,7 +58,7 @@ Android LINQ uses standard Java and therefore can also be used outside Android.
 <dependency>
   <groupId>br.com.zbra</groupId>
   <artifactId>android-linq</artifactId>
-  <version>1.0.0</version>
+  <version>{latest-version}</version>
 </dependency>
 ```
 
