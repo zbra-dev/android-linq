@@ -19,8 +19,8 @@
     </section>
 
     <section class="main-content">
-      <h1>
-<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h1>
+      <h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>Android LINQ is a small subset of collection manipulation utilities inspired by Microsoft C# LINQ library and targeted at Android developers looking to use new Java 8 Stream() API. </p>
 
@@ -30,25 +30,18 @@
 
 <p>Anyway, you need not to worry. Just add this to your Gradle/Maven and suffer with manual collection iteration no more!</p>
 
-<h1>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="android" class="anchor" href="#android" aria-hidden="true"><span class="octicon octicon-link"></span></a>Android</h3>
 
 <p>To use Android LINQ, first, go and setup <a href="https://github.com/evant/gradle-retrolambda">Retrolambda for Android</a> so we can use those fancy closures from Java 8 (don't worry, its just some extra lines on your build.gradle file). </p>
 
 <p>Now, just add this line to your project build.gradle (files are hosted in Bintray jCenter, so don't forget to add it to the repositories list too).</p>
 
-<h3>
-<a id="maven" class="anchor" href="#maven" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maven</h3>
-
-<pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;br.com.zbra&lt;/groupId&gt;
-  &lt;artifactId&gt;android-linq&lt;/artifactId&gt;
-  &lt;version&gt;1.0.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<h3>
-<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle</h3>
+<h4>
+<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle</h4>
 
 <pre><code>...
 repositories {
@@ -60,11 +53,37 @@ repositories {
 <pre><code>compile 'br.com.zbra:android-linq:1.0.0'
 </code></pre>
 
-<h1>
-<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h1>
-
 <h3>
-<a id="get-names-from-contacts" class="anchor" href="#get-names-from-contacts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get names from contacts</h3>
+<a id="standard-java-8" class="anchor" href="#standard-java-8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standard Java 8</h3>
+
+<p>Android LINQ uses standard Java and therefore can also be used outside Android.</p>
+
+<h4>
+<a id="maven" class="anchor" href="#maven" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maven</h4>
+
+<pre><code>&lt;repositories&gt;
+    ...
+    &lt;repository&gt;
+      &lt;id&gt;jcenter&lt;/id&gt;
+      &lt;url&gt;http://jcenter.bintray.com &lt;/url&gt;
+      ...
+    &lt;/repository&gt;
+    ...
+&lt;/repositories&gt;
+</code></pre>
+
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;br.com.zbra&lt;/groupId&gt;
+  &lt;artifactId&gt;android-linq&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<h4>
+<a id="get-names-from-contacts" class="anchor" href="#get-names-from-contacts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get names from contacts</h4>
 
 <pre><code>List&lt;String&gt; contactNames = 
       stream(contacts)
@@ -72,27 +91,27 @@ repositories {
           .toList();
 </code></pre>
 
-<h3>
-<a id="get-contacts-who-are-27-years-or-older" class="anchor" href="#get-contacts-who-are-27-years-or-older" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get contacts who are 27 years or older</h3>
+<h4>
+<a id="get-contacts-who-are-27-years-or-older" class="anchor" href="#get-contacts-who-are-27-years-or-older" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get contacts who are 27 years or older</h4>
 
 <pre><code>List&lt;Contact&gt; contacts = 
       stream(contacts)
-          .where(c - &gt; c.getAge() &gt;= 27)
+          .where(c -&gt; c.getAge() &gt;= 27)
           .toList();
 </code></pre>
 
-<h3>
-<a id="sort-contacts-by-name-then-by-age" class="anchor" href="#sort-contacts-by-name-then-by-age" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sort contacts by name, then by age</h3>
+<h4>
+<a id="sort-contacts-by-name-then-by-age" class="anchor" href="#sort-contacts-by-name-then-by-age" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sort contacts by name, then by age</h4>
 
 <pre><code>List&lt;Contact&gt; contactNames = 
       stream(contacts)
-          .orderBy(c - &gt; c.getName())
-          .thenBy(c - &gt; c.Age())
+          .orderBy(c -&gt; c.getName())
+          .thenBy(c -&gt; c.Age())
           .toList();
 </code></pre>
 
-<h3>
-<a id="group-products-by-category" class="anchor" href="#group-products-by-category" aria-hidden="true"><span class="octicon octicon-link"></span></a>Group products by category</h3>
+<h4>
+<a id="group-products-by-category" class="anchor" href="#group-products-by-category" aria-hidden="true"><span class="octicon octicon-link"></span></a>Group products by category</h4>
 
 <pre><code>Map&lt;Category, Stream&lt;Product&gt;&gt; productsByCategory
       stream(products)
@@ -100,8 +119,8 @@ repositories {
           .toMap(g -&gt; g.getKey() /* Category */, g.getElements() /* Stream&lt;Product&gt; */)
 </code></pre>
 
-<h3>
-<a id="calculate-the-total-price-of-a-purchase" class="anchor" href="#calculate-the-total-price-of-a-purchase" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calculate the total price of a purchase</h3>
+<h4>
+<a id="calculate-the-total-price-of-a-purchase" class="anchor" href="#calculate-the-total-price-of-a-purchase" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calculate the total price of a purchase</h4>
 
 <pre><code>double total = 
       stream(purchase.getItems())
@@ -110,8 +129,8 @@ repositories {
 
 <p>There are many more methods: first(), single(), distinct(), any(), aggregate(), count(), take(), skip() and reverse() are all available. Have fun!</p>
 
-<h1>
-<a id="pull-requests-are-welcome" class="anchor" href="#pull-requests-are-welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pull Requests Are Welcome!</h1>
+<h2>
+<a id="pull-requests-are-welcome" class="anchor" href="#pull-requests-are-welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pull Requests Are Welcome!</h2>
 
 <p>Please, send feedback and pull requests a plenty! 
 If you find a bug, a missing feature or have an improvement suggestion, don't be afraid to file an issue and we will do our best to attend it.</p>
