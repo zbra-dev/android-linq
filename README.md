@@ -1,7 +1,8 @@
 # Android LINQ
+
 Manipulate collections easily using C# LINQ style queries and Java 8 closures.
 
-# Description
+## Description
 
 Android LINQ is a small subset of collection manipulation utilities inspired by Microsoft C# LINQ library and targeted at Android developers looking to use new Java 8 Stream() API. 
 
@@ -11,23 +12,15 @@ Android LINQ has little to no impact on performance because it does not make use
 
 Anyway, you need not to worry. Just add this to your Gradle/Maven and suffer with manual collection iteration no more!
 
-# Usage
+## Usage
+
+### Android
 
 To use Android LINQ, first, go and setup [Retrolambda for Android](https://github.com/evant/gradle-retrolambda) so we can use those fancy closures from Java 8 (don't worry, its just some extra lines on your build.gradle file). 
 
 Now, just add this line to your project build.gradle (files are hosted in Bintray jCenter, so don't forget to add it to the repositories list too).
 
-### Maven 
-
-```
-<dependency>
-  <groupId>br.com.zbra</groupId>
-  <artifactId>android-linq</artifactId>
-  <version>1.0.0</version>
-</dependency>
-```
-
-### Gradle
+#### Gradle
 
 ```
 ...
@@ -40,44 +33,63 @@ repositories {
 compile 'br.com.zbra:android-linq:1.0.0'
 ```
 
-# Examples
+### Standard Java 8
 
-### Get names from contacts
+Android LINQ uses standard Java and therefore can also be used outside Android.
 
+#### Maven
+
+```
+<repositories>
+    ...
+    <repository>
+      <id>jcenter</id>
+      <url>http://jcenter.bintray.com </url>
+      ...
+    </repository>
+    ...
+</repositories>
+```
+```
+<dependency>
+  <groupId>br.com.zbra</groupId>
+  <artifactId>android-linq</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+## Examples
+
+#### Get names from contacts
 ```
 List<String> contactNames = 
       stream(contacts)
           .select(c -> c.getName())
           .toList();
 ````
-
-### Get contacts who are 27 years or older
+#### Get contacts who are 27 years or older
 ```
 List<Contact> contacts = 
       stream(contacts)
-          .where(c - > c.getAge() >= 27)
+          .where(c -> c.getAge() >= 27)
           .toList();
 ```
-### Sort contacts by name, then by age
+#### Sort contacts by name, then by age
 ```
 List<Contact> contactNames = 
       stream(contacts)
-          .orderBy(c - > c.getName())
-          .thenBy(c - > c.Age())
+          .orderBy(c -> c.getName())
+          .thenBy(c -> c.Age())
           .toList();
 ```
-
-### Group products by category
-
+#### Group products by category
 ```
 Map<Category, Stream<Product>> productsByCategory
       stream(products)
           .groupBy(p -> p.getCategory())
           .toMap(g -> g.getKey() /* Category */, g.getElements() /* Stream<Product> */)
 ```
-
-### Calculate the total price of a purchase
-
+#### Calculate the total price of a purchase
 ```
 double total = 
       stream(purchase.getItems())
@@ -86,7 +98,7 @@ double total =
 
 There are many more methods: first(), single(), distinct(), any(), aggregate(), count(), take(), skip() and reverse() are all available. Have fun!
 
-# Pull Requests Are Welcome!
+## Pull Requests Are Welcome!
 
 Please, send feedback and pull requests a plenty! 
 If you find a bug, a missing feature or have an improvement suggestion, don't be afraid to file an issue and we will do our best to attend it.
