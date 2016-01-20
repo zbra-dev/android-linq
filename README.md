@@ -97,7 +97,7 @@ Map<Category, Stream<Product>> productsByCategory
 ```
 double total = 
       stream(purchase.getItems())
-          .sum(i -> i.getPrice());
+          .sum((Purchase p) -> p.getPrice());
 ```
 
 There are many more methods: first(), single(), distinct(), any(), aggregate(), count(), take(), skip() and reverse() are all available. Have fun!
