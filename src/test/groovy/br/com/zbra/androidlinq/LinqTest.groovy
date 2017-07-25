@@ -4,23 +4,24 @@ import java.lang.reflect.Constructor
 
 import static br.com.zbra.androidlinq.Linq.stream
 
+@SuppressWarnings("GroovyUnusedDeclaration")
 class LinqTest extends GroovyTestCase {
 
     void testConstructor() {
-        Constructor<Linq> constructor = Linq.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
+        Constructor<Linq> constructor = Linq.class.getDeclaredConstructor()
+        constructor.setAccessible(true)
         shouldFailWithCause(UnsupportedOperationException.class, {
-            constructor.newInstance();
-        });
+            constructor.newInstance()
+        })
     }
 
     void testArrayStream() {
         def array = 0..9 as int[]
-        def arrayStream = stream(array)
+        def arrayStream  = stream(array)
 
         assert arrayStream.count() == array.length
-        assert arrayStream.toList() == array
-        assert arrayStream.reverse().toList() == 9..0 as int[]
+        assert arrayStream.toList().toArray() as int[]  == array
+        assert arrayStream.reverse().toList().toArray() as int[] == 9..0 as int[]
 
         assert stream(new int[0]).toList() == []
         assert stream(new int[0]).reverse().toList() == []
@@ -32,7 +33,7 @@ class LinqTest extends GroovyTestCase {
 
         assert listStream.count() == list.size()
         assert listStream.toList() == list
-        assert listStream.reverse().toList() == 9..0 as int[]
+        assert listStream.reverse().toList() == 9..0 as List<Integer>
 
         assert stream(new ArrayList<Integer>()).toList() == []
         assert stream(new ArrayList<Integer>()).reverse().toList() == []

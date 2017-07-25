@@ -5,6 +5,7 @@ import br.com.zbra.androidlinq.exception.MultipleElementsFoundException
 
 import static br.com.zbra.androidlinq.Linq.stream as stream
 
+@SuppressWarnings("GroovyUnusedDeclaration")
 class StreamTest extends GroovyTestCase {
 
     void testWhere() {
@@ -50,7 +51,7 @@ class StreamTest extends GroovyTestCase {
             stream([[]])
                     .selectMany({ n -> null })
                     .toList()
-        });
+        })
     }
 
     void testGroupBy() {
@@ -103,7 +104,7 @@ class StreamTest extends GroovyTestCase {
         def shuffledItems = []
 
         shuffledItems.addAll(integers)
-        Collections.shuffle(shuffledItems);
+        Collections.shuffle(shuffledItems)
 
         // orderBy ascending
         assert integers ==
@@ -212,13 +213,13 @@ class StreamTest extends GroovyTestCase {
 
         // fail: param cannot be <= 0
         shouldFail(IllegalArgumentException.class, {
-            stream(integers).take(-1).toList();
+            stream(integers).take(-1).toList()
         })
 
         shouldFail(NoSuchElementException.class, {
-            def iterator = stream(integers).take(1).iterator();
-            iterator.next();
-            iterator.next();
+            def iterator = stream(integers).take(1).iterator()
+            iterator.next()
+            iterator.next()
         })
 
         // takes 5 items
@@ -238,11 +239,11 @@ class StreamTest extends GroovyTestCase {
 
         // fail: param cannot be <= 0
         shouldFail(IllegalArgumentException.class, {
-            stream(integers).skip(-1).toList();
+            stream(integers).skip(-1).toList()
         })
 
         shouldFail(NoSuchElementException.class, {
-            stream(integers).skip(10).iterator().next();
+            stream(integers).skip(10).iterator().next()
         })
 
         // skips 5 items
@@ -254,7 +255,7 @@ class StreamTest extends GroovyTestCase {
         // skips 5 and count
         assert stream(integers).skip(5).count() == 5
         // skips 5 and reverses
-        assert stream(integers).skip(5).reverse().toList() == [9, 8, 7, 6, 5]
+        assert stream(integers).skip(5).reverse().toList().toArray() as int[] == [9, 8, 7, 6, 5] as int []
     }
 
     void testDistinct() {
@@ -273,8 +274,8 @@ class StreamTest extends GroovyTestCase {
                 stream(range).distinct().toList()
     }
 
-    void testSumByte() {
-        def list = 0..9
+    void testSum() {
+        def list = 0..9 as List<Integer>
         def sum = list.sum()
 
         // sum Bytes
@@ -297,6 +298,54 @@ class StreamTest extends GroovyTestCase {
 
         // sum BigDecimals
         assert sum == stream(list).sum({ int n -> new BigDecimal(n) } as SelectorBigDecimal)
+    }
+
+    void testMax() {
+
+        // max for numbers
+        def numbers = [3, 6, 8, 4, 2, 0, 1, 9, 7, 5]
+        assert stream(numbers).max({ n -> n }) == 9
+
+        // max for dates
+        def dates = [
+                new Date(2017, 10, 20),
+                new Date(2018, 1, 1),
+                new Date(2012, 9, 7),
+                new Date(2015, 7, 27)
+        ]
+        assert stream(dates).max({ n -> n }) == new Date(2018, 1, 1)
+
+        // max for strings
+        def strings = ["Shift", "Alê", "Falavinha", "Tomoiti",  "Milton", "Michele", "Fillipe", "Zé"]
+        assert stream(strings).max({ n -> n }) == "Zé"
+
+        // max with custom comparator
+        def objects = [ [id: 322], [id: 420], [id: 3154], [id: 123] ]
+        assert stream(objects).max({ n -> n.id }, { n1, n2 -> n1 - n2 }).id == 3154
+    }
+
+    void testMin() {
+
+        // max for numbers
+        def numbers = [3, 6, 8, 4, 2, 0, 1, 9, 7, 5]
+        assert stream(numbers).min({ n -> n }) == 0
+
+        // max for dates
+        def dates = [
+                new Date(2017, 10, 20),
+                new Date(2018, 1, 1),
+                new Date(2012, 9, 7),
+                new Date(2015, 7, 27)
+        ]
+        assert stream(dates).min({ n -> n }) == new Date(2012, 9, 7)
+
+        // max for strings
+        def strings = ["Shift", "Alê", "Falavinha", "Tomoiti",  "Milton", "Michele", "Fillipe", "Zé"]
+        assert stream(strings).min({ n -> n }) == "Alê"
+
+        // max with custom comparator
+        def objects = [ [id: 322], [id: 420], [id: 3154], [id: 123] ]
+        assert stream(objects).min({ n -> n.id }, { n1, n2 -> n1 - n2 }).id == 123
     }
 
     @SuppressWarnings("GroovyPointlessBoolean")

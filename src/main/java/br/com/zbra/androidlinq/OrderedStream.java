@@ -13,7 +13,7 @@ public interface OrderedStream<T> extends Stream<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> OrderedStream<T> thenBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    <TKey> OrderedStream<T> thenBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
@@ -22,7 +22,7 @@ public interface OrderedStream<T> extends Stream<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> OrderedStream<T> thenBy(Selector<T, TKey> keySelector);
+    <TKey extends Comparable<TKey>> OrderedStream<T> thenBy(Selector<T, TKey> keySelector);
 
     /**
      * Performs a subsequent ordering of the elements in a sequence in descending order by using a specified comparer.
@@ -32,7 +32,7 @@ public interface OrderedStream<T> extends Stream<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    <TKey> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Performs a subsequent ordering of the elements in a sequence in descending order, according to a key.
@@ -41,6 +41,6 @@ public interface OrderedStream<T> extends Stream<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector);
+    <TKey extends Comparable<TKey>> OrderedStream<T> thenByDescending(Selector<T, TKey> keySelector);
 
 }

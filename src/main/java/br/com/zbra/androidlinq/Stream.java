@@ -13,14 +13,14 @@ import java.util.NoSuchElementException;
  *
  * @param <T> the type of the wrapped {@code Iterable<T>}
  */
-public interface Stream<T> extends Iterable<T> {
+interface Stream<T> extends Iterable<T> {
     /**
      * Filters a sequence of values based on a predicate.
      *
      * @param predicate A function to test each element for a condition.
      * @return An Stream of type T that contains elements from the input sequence that satisfy the condition.
      */
-    public Stream<T> where(Predicate<T> predicate);
+    Stream<T> where(Predicate<T> predicate);
 
     /**
      * Projects each element of a sequence into a new form.
@@ -29,7 +29,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TResult> The type of the value returned by selector.
      * @return An Stream of type TResult whose elements are the result of invoking the transform function on each element of source.
      */
-    public <TResult> Stream<TResult> select(Selector<T, TResult> selector);
+    <TResult> Stream<TResult> select(Selector<T, TResult> selector);
 
     /**
      * Projects each element of a sequence to an {@link Iterable Iterable&lt;TResult&gt;} and flattens the resulting sequences into one sequence.
@@ -38,7 +38,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TResult> The type of the elements of the sequence returned by selector.
      * @return An Stream of type TResult whose elements are the result of invoking the one-to-many transform function on each element of the input sequence.
      */
-    public <TResult> Stream<TResult> selectMany(Selector<T, Iterable<TResult>> selector);
+    <TResult> Stream<TResult> selectMany(Selector<T, Iterable<TResult>> selector);
 
     /**
      * Groups the elements of a sequence according to a specified key selector function.
@@ -49,7 +49,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TElement>      The type of the element returned by elementSelector.
      * @return An Stream of type Grouping where each Grouping object contains a sequence of objects and a key (TKey, TResult respectively).
      */
-    public <TKey, TElement> Stream<Grouping<TKey, TElement>> groupBy(Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector);
+    <TKey, TElement> Stream<Grouping<TKey, TElement>> groupBy(Selector<T, TKey> keySelector, Selector<T, TElement> elementSelector);
 
     /**
      * Groups the elements of a sequence according to a specified key selector function.
@@ -58,7 +58,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type Grouping where each Grouping object contains a sequence of objects and a key (TKey, TResult respectively).
      */
-    public <TKey> Stream<Grouping<TKey, T>> groupBy(Selector<T, TKey> keySelector);
+    <TKey> Stream<Grouping<TKey, T>> groupBy(Selector<T, TKey> keySelector);
 
     /**
      * Sorts the elements of a sequence in ascending order according to a key.
@@ -68,7 +68,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> OrderedStream<T> orderBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    <TKey> OrderedStream<T> orderBy(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Sorts the elements of a sequence in ascending order according to a key.
@@ -77,7 +77,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> OrderedStream<T> orderBy(Selector<T, TKey> keySelector);
+    <TKey extends Comparable<TKey>> OrderedStream<T> orderBy(Selector<T, TKey> keySelector);
 
     /**
      * Sorts the elements of a sequence in descending order according to a key.
@@ -87,7 +87,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
+    <TKey> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector, Comparator<TKey> comparator);
 
     /**
      * Sorts the elements of a sequence in descending order according to a key.
@@ -96,14 +96,14 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return An Stream of type T whose elements are sorted according to a key.
      */
-    public <TKey extends Comparable<TKey>> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector);
+    <TKey extends Comparable<TKey>> OrderedStream<T> orderByDescending(Selector<T, TKey> keySelector);
 
     /**
      * Reverses the order of the sequence.
      *
      * @return An stream of type T whose elements are in the reverse order.
      */
-    public Stream<T> reverse();
+    Stream<T> reverse();
 
     /**
      * Applies an accumulator function over a sequence.
@@ -115,7 +115,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TAccumulate> The type of the accumulator value.
      * @return The transformed final accumulator value.
      */
-    public <TAccumulate> TAccumulate aggregate(TAccumulate seed, Aggregator<T, TAccumulate> aggregator);
+    <TAccumulate> TAccumulate aggregate(TAccumulate seed, Aggregator<T, TAccumulate> aggregator);
 
     /**
      * Returns a specified number of contiguous elements from the start of a sequence.
@@ -123,7 +123,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param count The number of elements to return.
      * @return An Stream of type T that contains the specified number of elements from the start of the input sequence.
      */
-    public Stream<T> take(int count);
+    Stream<T> take(int count);
 
     /**
      * Skips a specified number of contiguous elements from the start of a sequence then returns remaining elements.
@@ -131,14 +131,14 @@ public interface Stream<T> extends Iterable<T> {
      * @param count The number of elements to skip.
      * @return An Stream of type T that contains the elements after the number of elements skipped from the start of the input sequence.
      */
-    public Stream<T> skip(int count);
+    Stream<T> skip(int count);
 
     /**
      * Returns distinct elements from a sequence by using the object {@code equals()} to compare values.
      *
      * @return An Stream of type T that contains distinct elements from the source sequence.
      */
-    public Stream<T> distinct();
+    Stream<T> distinct();
 
     /**
      * Computes the sum of the sequence of Byte values that are obtained by invoking
@@ -147,7 +147,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Byte sum(SelectorByte<T> selector);
+    Byte sum(SelectorByte<T> selector);
 
     /**
      * Computes the sum of the sequence of Short values that are obtained by invoking
@@ -156,7 +156,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Short sum(SelectorShort<T> selector);
+    Short sum(SelectorShort<T> selector);
 
     /**
      * Computes the sum of the sequence of Integer values that are obtained by invoking
@@ -165,7 +165,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Integer sum(SelectorInteger<T> selector);
+    Integer sum(SelectorInteger<T> selector);
 
     /**
      * Computes the sum of the sequence of Long values that are obtained by invoking
@@ -174,7 +174,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Long sum(SelectorLong<T> selector);
+    Long sum(SelectorLong<T> selector);
 
     /**
      * Computes the sum of the sequence of Float values that are obtained by invoking
@@ -183,7 +183,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Float sum(SelectorFloat<T> selector);
+    Float sum(SelectorFloat<T> selector);
 
     /**
      * Computes the sum of the sequence of Double values that are obtained by invoking
@@ -192,7 +192,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public Double sum(SelectorDouble<T> selector);
+    Double sum(SelectorDouble<T> selector);
 
     /**
      * Computes the sum of the sequence of BigDecimal values that are obtained by invoking
@@ -201,14 +201,56 @@ public interface Stream<T> extends Iterable<T> {
      * @param selector A transform function to apply to each element.
      * @return The sum of the projected values.
      */
-    public BigDecimal sum(SelectorBigDecimal<T> selector);
+    BigDecimal sum(SelectorBigDecimal<T> selector);
+
+    /**
+     * Computes the min of the sequence of values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @param <TResult> The resulting type returned by the selector.
+     * @return The max of the projected values.
+     */
+    <TResult extends Comparable<TResult>> T min(Selector<T, TResult> selector);
+
+    /**
+     * Computes the min of the sequence of values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @param comparator A comparator function that defines element ordering.
+     * @param <TResult> The resulting type returned by the selector.
+     * @return The max of the projected values.
+     */
+    <TResult> T min(Selector<T, TResult> selector, Comparator<TResult> comparator);
+
+    /**
+     * Computes the max of the sequence of values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @param <TResult> The resulting type returned by the selector.
+     * @return The max of the projected values.
+     */
+    <TResult extends Comparable<TResult>> T max(Selector<T, TResult> selector);
+
+    /**
+     * Computes the min of the sequence of values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @param comparator A comparator function that defines element ordering.
+     * @param <TResult> The resulting type returned by the selector.
+     * @return The max of the projected values.
+     */
+    <TResult> T max(Selector<T, TResult> selector, Comparator<TResult> comparator);
 
     /**
      * Determines whether a sequence contains any elements.
      *
      * @return {@code true} if the source sequence contains any elements; otherwise, {@code false}.
      */
-    public boolean any();
+    boolean any();
 
     /**
      * Determines whether any element of a sequence satisfies a condition.
@@ -216,14 +258,14 @@ public interface Stream<T> extends Iterable<T> {
      * @param predicate A function to test each element for a condition
      * @return {@code true} if any elements in the source sequence pass the test in the specified predicate; otherwise,  {@code false}.
      */
-    public boolean any(Predicate<T> predicate);
+    boolean any(Predicate<T> predicate);
 
     /**
      * Returns the number of elements in a sequence.
      *
      * @return The number of elements in the input sequence.
      */
-    public int count();
+    int count();
 
     /**
      * Returns the first element of a sequence; this method throws an exception if the sequence is empty.
@@ -231,7 +273,7 @@ public interface Stream<T> extends Iterable<T> {
      * @return The first element in the specified sequence.
      * @throws NoSuchElementException if the sequence is empty.
      */
-    public T first();
+    T first();
 
     /**
      * Returns the first element in a sequence that satisfies the specified condition; this method throws
@@ -241,14 +283,14 @@ public interface Stream<T> extends Iterable<T> {
      * @return The first element in the sequence that passes the test in the specified predicate function.
      * @throws NoSuchElementException if no element in the sequence satisfies the condition.
      */
-    public T first(Predicate<T> predicate);
+    T first(Predicate<T> predicate);
 
     /**
      * Returns the first element of a sequence, or null if empty.
      *
      * @return The first element in the specified sequence, or null if empty.
      */
-    public T firstOrNull();
+    T firstOrNull();
 
     /**
      * Returns the first element in a sequence that satisfies a specified condition, or null if none does.
@@ -256,14 +298,14 @@ public interface Stream<T> extends Iterable<T> {
      * @param predicate A function to test each element for a condition.
      * @return The first element in the sequence that passes the test in the specified predicate function, or null if none does.
      */
-    public T firstOrNull(Predicate<T> predicate);
+    T firstOrNull(Predicate<T> predicate);
 
     /**
      * Returns the first element of a sequence, or defaultValue if empty.
      *
      * @return The first element in the specified sequence, or defaultValue if empty.
      */
-    public T firstOrDefault(T defaultValue);
+    T firstOrDefault(T defaultValue);
 
     /**
      * Returns the first element in a sequence that satisfies a specified condition, or defaultValue if none does.
@@ -271,7 +313,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param predicate A function to test each element for a condition.
      * @return The first element in the sequence that passes the test in the specified predicate function, or or defaultValue if none does.
      */
-    public T firstOrDefault(Predicate<T> predicate, T defaultValue);
+    T firstOrDefault(Predicate<T> predicate, T defaultValue);
 
     /**
      * Returns the last element of a sequence; this method throws an exception if the sequence is empty.
@@ -279,7 +321,7 @@ public interface Stream<T> extends Iterable<T> {
      * @return The last element in the specified sequence.
      * @throws NoSuchElementException if the sequence is empty.
      */
-    public T last();
+    T last();
 
     /**
      * Returns the last element in a sequence that satisfies the specified condition; this method throws
@@ -289,14 +331,14 @@ public interface Stream<T> extends Iterable<T> {
      * @return The last element in the sequence that passes the test in the specified predicate function.
      * @throws NoSuchElementException if no element in the sequence satisfies the condition.
      */
-    public T last(Predicate<T> predicate);
+    T last(Predicate<T> predicate);
 
     /**
      * Returns the last element of a sequence, or null if empty.
      *
      * @return The last element in the specified sequence, or null if empty.
      */
-    public T lastOrNull();
+    T lastOrNull();
 
     /**
      * Returns the last element in a sequence that satisfies a specified condition, or null if none does.
@@ -304,14 +346,14 @@ public interface Stream<T> extends Iterable<T> {
      * @param predicate A function to test each element for a condition.
      * @return The last element in the sequence that passes the test in the specified predicate function, or null if none does.
      */
-    public T lastOrNull(Predicate<T> predicate);
+    T lastOrNull(Predicate<T> predicate);
 
     /**
      * Returns the last element of a sequence, or defaultValue if empty.
      *
      * @return The last element in the specified sequence, or defaultValue if empty.
      */
-    public T lastOrDefault(T defaultValue);
+    T lastOrDefault(T defaultValue);
 
     /**
      * Returns the last element in a sequence that satisfies a specified condition, or defaultValue if none does.
@@ -319,7 +361,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param predicate A function to test each element for a condition.
      * @return The last element in the sequence that passes the test in the specified predicate function, or or defaultValue if none does.
      */
-    public T lastOrDefault(Predicate<T> predicate, T defaultValue);
+    T lastOrDefault(Predicate<T> predicate, T defaultValue);
 
     /**
      * Returns the only element of a sequence; this method throws an exception if there is more than
@@ -329,7 +371,7 @@ public interface Stream<T> extends Iterable<T> {
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      * @throws NoSuchElementException If the sequence is empty.
      */
-    public T single() throws MultipleElementsFoundException;
+    T single() throws MultipleElementsFoundException;
 
     /**
      * Returns the only element of a sequence that satisfies a specified condition; this method throws an exception
@@ -340,7 +382,7 @@ public interface Stream<T> extends Iterable<T> {
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      * @throws NoSuchElementException If no element in the sequence satisfies the condition.
      */
-    public T single(Predicate<T> predicate) throws MultipleElementsFoundException;
+    T single(Predicate<T> predicate) throws MultipleElementsFoundException;
 
     /**
      * Returns the only element of a sequence, or a null if the sequence is empty; this method throws
@@ -349,7 +391,7 @@ public interface Stream<T> extends Iterable<T> {
      * @return The single element of the input sequence, or default(TSource) if the sequence contains no elements.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T singleOrNull();
+    T singleOrNull();
 
     /**
      * Returns the only element of a sequence that satisfies a specified condition or null if
@@ -359,7 +401,7 @@ public interface Stream<T> extends Iterable<T> {
      * @return The single element of the input sequence that satisfies the condition, or null if no such element is found.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T singleOrNull(Predicate<T> predicate);
+    T singleOrNull(Predicate<T> predicate);
 
     /**
      * Returns the only element of a sequence, or a defaultValue if the sequence is empty; this method throws
@@ -368,7 +410,7 @@ public interface Stream<T> extends Iterable<T> {
      * @return The single element of the input sequence, or default(TSource) if the sequence contains no elements.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T singleOrDefault(T defaultValue);
+    T singleOrDefault(T defaultValue);
 
     /**
      * Returns the only element of a sequence that satisfies a specified condition or defaultValue if
@@ -378,14 +420,14 @@ public interface Stream<T> extends Iterable<T> {
      * @return The single element of the input sequence that satisfies the condition, or null if no such element is found.
      * @throws MultipleElementsFoundException The input sequence contains more than one matching element.
      */
-    public T singleOrDefault(Predicate<T> predicate, T defaultValue);
+    T singleOrDefault(Predicate<T> predicate, T defaultValue);
 
     /**
      * Creates a List from a Stream.
      *
      * @return A List of type T that contains elements from the input sequence.
      */
-    public List<T> toList();
+    List<T> toList();
 
     /**
      * Creates a Map&lt;TKey, T&gt; from a Stream&lt;T&gt; according to a specified key selector function.
@@ -394,7 +436,7 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TKey>      The type of the key returned by keySelector.
      * @return A Map that contains keys and values derived from the Stream.
      */
-    public <TKey> Map<TKey, T> toMap(Selector<T, TKey> keySelector);
+    <TKey> Map<TKey, T> toMap(Selector<T, TKey> keySelector);
 
     /**
      * Creates a Map&lt;TKey, T&gt; from a Stream&lt;T&gt; according to specified key selector and value selector functions.
@@ -405,5 +447,5 @@ public interface Stream<T> extends Iterable<T> {
      * @param <TValue>      The type of the value returned by elementSelector.
      * @return A Map that contains keys and values derived from the Stream.
      */
-    public <TKey, TValue> Map<TKey, TValue> toMap(Selector<T, TKey> keySelector, Selector<T, TValue> valueSelector);
+    <TKey, TValue> Map<TKey, TValue> toMap(Selector<T, TKey> keySelector, Selector<T, TValue> valueSelector);
 }

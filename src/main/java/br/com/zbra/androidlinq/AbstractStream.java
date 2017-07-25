@@ -140,7 +140,7 @@ abstract class AbstractStream<T> implements Stream<T> {
 
     @Override
     public Long sum(final SelectorLong<T> selector) {
-        return aggregate(0l, new Aggregator<T, Long>() {
+        return aggregate(0L, new Aggregator<T, Long>() {
             @Override
             public Long aggregate(Long v, T t) {
                 return v + selector.select(t);
@@ -176,6 +176,26 @@ abstract class AbstractStream<T> implements Stream<T> {
                 return v.add(selector.select(t));
             }
         });
+    }
+
+    @Override
+    public <TResult extends Comparable<TResult>> T min(Selector<T, TResult> selector) {
+        return orderBy(selector).first();
+    }
+
+    @Override
+    public <TResult> T min(Selector<T, TResult> selector, Comparator<TResult> comparator) {
+        return orderBy(selector, comparator).first();
+    }
+
+    @Override
+    public <TResult extends Comparable<TResult>> T max(Selector<T, TResult> selector) {
+        return orderBy(selector).last();
+    }
+
+    @Override
+    public <TResult> T max(Selector<T, TResult> selector, Comparator<TResult> comparator) {
+        return orderBy(selector, comparator).last();
     }
 
     @Override
