@@ -399,6 +399,22 @@ class StreamTest extends GroovyTestCase {
         assert stream(integers).any({ n -> n == 100 } as Predicate) == false
     }
 
+    @SuppressWarnings("GroovyPointlessBoolean")
+    void testContains() {
+        def integers = 0..9
+
+        // contains passing element
+        assert stream(new int[0]).contains(1) == false
+        assert stream(integers).contains(99) == false
+        assert stream(integers).contains(7) == true
+
+        // contains passing element and compare function
+        assert stream([]).contains(9, { n1, n2 -> n1 == n2 }) == false
+        assert stream([1]).contains(1, { n1, n2 -> n1 == n2 }) == true
+        assert stream(integers).contains(9, { n1, n2 -> n1 == n2 }) == true
+        assert stream(integers).contains(100, { n1, n2 -> n1 == n2 }) == false
+    }
+
     void testCount() {
         assert stream([]).count() == 0
         assert stream(0..9).count() == 10

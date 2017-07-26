@@ -337,6 +337,23 @@ interface Stream<T> extends Iterable<T> {
     boolean any(Predicate<T> predicate);
 
     /**
+     * Determines whether a sequence contains a specific element.
+     *
+     * @param element element for checking
+     * @return {@code true} if the source sequence contains the given element; otherwise, {@code false}.
+     */
+    boolean contains(T element);
+
+    /**
+     * Determines whether a sequence contains a specific element.
+     *
+     * @param element element for checking
+     * @param comparator expression defining how to compare elements
+     * @return {@code true} if the source sequence contains the given element; otherwise, {@code false}.
+     */
+    boolean contains(T element, EqualityComparator<T> comparator);
+
+    /**
      * Returns the number of elements in a sequence.
      *
      * @return The number of elements in the input sequence.

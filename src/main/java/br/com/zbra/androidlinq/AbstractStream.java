@@ -251,6 +251,26 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
+    public boolean contains(final T element) {
+        return contains(element, new EqualityComparator<T>() {
+            @Override
+            public boolean compare(T value1, T value2) {
+                return value1.equals(value2);
+            }
+        });
+    }
+
+    @Override
+    public boolean contains(final T element, final EqualityComparator<T> comparator) {
+        return any(new Predicate<T>() {
+            @Override
+            public boolean apply(T value) {
+                return comparator.compare(value, element);
+            }
+        });
+    }
+
+    @Override
     public int count() {
         return aggregate(0, new Aggregator<T, Integer>() {
             @Override
