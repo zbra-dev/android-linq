@@ -34,7 +34,7 @@ repositories {
 ...
 ```
 ```
-compile 'br.com.zbra:android-linq:1.0.1'
+compile 'br.com.zbra:android-linq:1.1.0'
 ```
 
 ### Standard Java 8
