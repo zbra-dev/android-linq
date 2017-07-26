@@ -58,7 +58,7 @@ Android LINQ uses standard Java and therefore can also be used outside Android.
 <dependency>
   <groupId>br.com.zbra</groupId>
   <artifactId>android-linq</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
