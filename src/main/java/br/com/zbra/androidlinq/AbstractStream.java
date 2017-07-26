@@ -180,7 +180,7 @@ abstract class AbstractStream<T> implements Stream<T> {
     }
 
     @Override
-    public Byte average(final SelectorByte<T> selector) {
+    public Byte average( SelectorByte<T> selector) {
         return (byte)(sum(selector) / count());
     }
 
