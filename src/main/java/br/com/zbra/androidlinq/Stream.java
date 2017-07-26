@@ -4,6 +4,7 @@ import br.com.zbra.androidlinq.delegate.*;
 import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -202,6 +203,81 @@ interface Stream<T> extends Iterable<T> {
      * @return The sum of the projected values.
      */
     BigDecimal sum(SelectorBigDecimal<T> selector);
+
+    /**
+     * Computes the average of the sequence of Byte values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Byte average(SelectorByte<T> selector);
+
+    /**
+     * Computes the average of the sequence of Short values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Short average(SelectorShort<T> selector);
+
+    /**
+     * Computes the average of the sequence of Integer values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Integer average(SelectorInteger<T> selector);
+
+    /**
+     * Computes the average of the sequence of Long values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Long average(SelectorLong<T> selector);
+
+    /**
+     * Computes the average of the sequence of Float values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Float average(SelectorFloat<T> selector);
+
+    /**
+     * Computes the average of the sequence of Double values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    Double average(SelectorDouble<T> selector);
+
+    /**
+     * Computes the average of the sequence of BigDecimal values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @return The average of the projected values.
+     */
+    BigDecimal average(SelectorBigDecimal<T> selector);
+
+    /**
+     * Computes the average of the sequence of BigDecimal values that are obtained by invoking
+     * a transform function on each element of the input sequence.
+     *
+     * @param selector A transform function to apply to each element.
+     * @param mathContext Math context for operating with theses BigDecimals
+     * @return The average of the projected values.
+     * @see BigDecimal#divide(BigDecimal, MathContext)
+     * @see MathContext
+     */
+    BigDecimal average(SelectorBigDecimal<T> selector, MathContext mathContext);
 
     /**
      * Computes the min of the sequence of values that are obtained by invoking

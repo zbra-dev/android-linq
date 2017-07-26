@@ -5,6 +5,7 @@ import br.com.zbra.androidlinq.delegate.Comparator;
 import br.com.zbra.androidlinq.exception.MultipleElementsFoundException;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.*;
 
 abstract class AbstractStream<T> implements Stream<T> {
@@ -176,6 +177,47 @@ abstract class AbstractStream<T> implements Stream<T> {
                 return v.add(selector.select(t));
             }
         });
+    }
+
+    @Override
+    public Byte average(final SelectorByte<T> selector) {
+        return (byte)(sum(selector) / count());
+    }
+
+    @Override
+    public Short average(SelectorShort<T> selector) {
+        return (short)(sum(selector) / count());
+    }
+
+    @Override
+    public Integer average(SelectorInteger<T> selector) {
+        return sum(selector) / count();
+    }
+
+    @Override
+    public Long average(SelectorLong<T> selector) {
+        return sum(selector) / count();
+    }
+
+    @Override
+    public Float average(SelectorFloat<T> selector) {
+        return sum(selector) / count();
+    }
+
+    @Override
+    public Double average(SelectorDouble<T> selector) {
+        return sum(selector) / count();
+    }
+
+    @Override
+    public BigDecimal average(SelectorBigDecimal<T> selector) {
+        //noinspection BigDecimalMethodWithoutRoundingCalled
+        return sum(selector).divide(new BigDecimal(count()));
+    }
+
+    @Override
+    public BigDecimal average(SelectorBigDecimal<T> selector, MathContext mathContext) {
+        return sum(selector).divide(new BigDecimal(count()), mathContext);
     }
 
     @Override

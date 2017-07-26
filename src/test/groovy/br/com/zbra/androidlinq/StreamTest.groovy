@@ -3,6 +3,9 @@ package br.com.zbra.androidlinq
 import br.com.zbra.androidlinq.delegate.*
 import br.com.zbra.androidlinq.exception.MultipleElementsFoundException
 
+import java.math.MathContext
+import java.math.RoundingMode
+
 import static br.com.zbra.androidlinq.Linq.stream as stream
 
 @SuppressWarnings("GroovyUnusedDeclaration")
@@ -298,6 +301,38 @@ class StreamTest extends GroovyTestCase {
 
         // sum BigDecimals
         assert sum == stream(list).sum({ int n -> new BigDecimal(n) } as SelectorBigDecimal)
+    }
+
+    void testAverage() {
+        def list = 0..9 as List<Integer>
+
+        // average Bytes
+        assert 4 == stream(list).average({ n -> (byte) n } as SelectorByte)
+
+        // average Shorts
+        assert 4 == stream(list).average({ n -> (short) n } as SelectorShort)
+
+        // average Integers
+        assert 4 == stream(list).average({ n -> (int) n } as SelectorInteger)
+
+        // average Longs
+        assert 4 == stream(list).average({ n -> (long) n } as SelectorLong)
+
+        // average Floats
+        assert 4.5 == stream(list).average({ n -> (float) n } as SelectorFloat)
+
+        // average Doubles
+        assert 4.5 == stream(list).average({ n -> (double) n } as SelectorDouble)
+
+        // average BigDecimals
+        assert new BigDecimal(4.5) == stream(list).average({ int n -> new BigDecimal(n) } as SelectorBigDecimal)
+
+        // average BigDecimals with MathContext
+        assert new BigDecimal(4.5) == stream(list).average({ int n -> new BigDecimal(n) } as SelectorBigDecimal, new MathContext(2, RoundingMode.HALF_UP))
+
+        // average BigDecimals with MathContext for recurring division
+        assert new BigDecimal(0.33, new MathContext(2, RoundingMode.UP)) == stream([0, 0, 1]).average({ int n -> new BigDecimal(n) } as SelectorBigDecimal, new MathContext(2, RoundingMode.UP))
+
     }
 
     void testMax() {
