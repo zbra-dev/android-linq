@@ -34,7 +34,7 @@ repositories {
 ...
 ```
 ```
-compile 'br.com.zbra:android-linq:1.0.1'
+compile 'br.com.zbra:android-linq:1.1.0'
 ```
 
 ### Standard Java 8
@@ -58,7 +58,7 @@ Android LINQ uses standard Java and therefore can also be used outside Android.
 <dependency>
   <groupId>br.com.zbra</groupId>
   <artifactId>android-linq</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
