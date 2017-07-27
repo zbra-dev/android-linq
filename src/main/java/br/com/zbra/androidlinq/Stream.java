@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T> the type of the wrapped {@code Iterable<T>}
  */
-interface Stream<T> extends Iterable<T> {
+public interface Stream<T> extends Iterable<T> {
     /**
      * Filters a sequence of values based on a predicate.
      *
