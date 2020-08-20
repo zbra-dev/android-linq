@@ -26,6 +26,27 @@ Now, just add this line to your project build.gradle (files are hosted in Bintra
 
 #### Gradle
 
+#### Android Studio >= 4.0
+
+Android Studio 4.0 introduced a ne version of Gradle and with that, usage changed a little. See https://jitpack.io/#zbra-solutions/android-linq/1.1.0 for more details.
+
+```
+...
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+...
+```
+```
+dependencies {
+    implementation 'com.github.zbra-solutions:android-linq:1.1.0'
+}
+```
+
+#### Legacy
 ```
 ...
 repositories {
